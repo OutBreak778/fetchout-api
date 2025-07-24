@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs";
-import { JWT_SECRET_KEY } from "../config/constants.js";
-import Token from "../models/token.js";
-import User from "../models/user.js";
-import { hashedPassword } from "../utils/hash.js";
-import logger from "../utils/logger.js";
-import { SendEmail } from "../utils/sendEmail.js";
+import { JWT_SECRET_KEY } from "../../config/constants.js";
+import Token from "../../models/token.js";
+import User from "../../models/user.js";
+import { hashedPassword } from "../../utils/hash.js";
+import logger from "../../utils/logger.js";
+import { SendEmail } from "../../utils/sendEmail.js";
 import jwt from "jsonwebtoken";
 
 export async function loginAuthController(req, res) {
@@ -54,7 +54,6 @@ export async function loginAuthController(req, res) {
     return res.status(201).json({
       success: true,
       message: "Login successfully",
-      token: authToken,
       user: {
         id: existingUser._id,
         userName: existingUser.userName,
@@ -71,6 +70,32 @@ export async function loginAuthController(req, res) {
       });
   }
 }
+
+export async function logoutAuthController(req, res) {
+  try {
+
+    res.clearCookie("token", {
+      httpOnly: true,
+    })
+
+    logger.info("Logout Successfully")
+    return res.status(201).json({
+      success: true,
+      message: "Logout Successfully"
+    })
+    
+  } catch (error) {
+    logger.error(`Error occurred while logout: ${error.message}`)
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Internal Server Error"
+    })
+  }
+}
+
+
+
+// Register Controller Code
 
 export async function registerAuthController(req, res) {
   const { userName, email, password } = req.body;
