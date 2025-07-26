@@ -12,6 +12,7 @@ export async function getAllEndpointController(req, res) {
     return res.status(200).json({
       success: true,
       message: "All route Endpoints",
+      count: data.length,
       endpoint: data,
     });
   } catch (error) {

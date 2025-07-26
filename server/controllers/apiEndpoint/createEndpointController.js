@@ -9,7 +9,7 @@ const generateApiKey = () => {
 };
 
 export async function createEndpointController(req, res) {
-  const { name, methods, params, response, description, rateLimit } = req.body;
+  const { name, methods, params, response, description, rateLimit, isPublic } = req.body;
 
   if (!name || !methods || !params || !Array.isArray(params)) {
     logger.warn("All fields are required.");
@@ -74,6 +74,7 @@ export async function createEndpointController(req, res) {
       urlPath: `${CLIENT_URL}/api/${slugData}/${apiKey}`,
       hits: 0,
       rateLimit: rateLimit,
+      isPublic
     });
 
     await newEndpoint.save();

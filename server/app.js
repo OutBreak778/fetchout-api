@@ -10,6 +10,7 @@ import errorHandler from "./middleware/errorHandler.js"
 import authRoutes from "./routes/authRoutes.js"
 import apiEndpointRoutes from "./routes/apiEndpointRoute.js"
 import usageLogRoutes from "./routes/usageLogRoute.js"
+import paramsRoute from "./routes/paramsRoute.js"
 
 dotenv.config({quiet: true})
 const app = express()
@@ -24,10 +25,12 @@ app.use(cors())
 app.use(cookieParser())
 
 //Routes
-app.use("/api", routes)
+app.use("/api/v1", routes)
 app.use("/auth", authRoutes)
 app.use("/api/endpoint", apiEndpointRoutes)
 app.use("/api/usage-log", usageLogRoutes)
+app.use("/api", paramsRoute)
+
 //Errors
 app.use(errorHandler)
 
