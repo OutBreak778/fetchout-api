@@ -36,6 +36,13 @@ export async function getSingleEndpointController(req, res) {
       });
     }
 
+    if (endpoint.methods.toUpperCase() !== req.method.toUpperCase()) {
+      return res.status(405).json({
+        success: false,
+        message: `Invalid HTTP method. Expected ${endpoint.methods}, got ${req.method}`,
+      });
+    }
+
     endpoint.hits += 1;
     await endpoint.save();
 
@@ -45,8 +52,6 @@ export async function getSingleEndpointController(req, res) {
     } catch (e) {
       responseData = endpoint.response;
     }
-
-    
 
     logger.info(`Served mock response for slug: ${slug}`);
     return res.status(200).json({
@@ -64,8 +69,8 @@ export async function getSingleEndpointController(req, res) {
         response: responseData,
         hits: endpoint.hits,
         rateLimit: endpoint.rateLimit,
-        isPublic: endpoint.isPublic
-      }
+        isPublic: endpoint.isPublic,
+      },
     });
   } catch (error) {
     logger.error("Internal Server Error");
@@ -76,4 +81,3 @@ export async function getSingleEndpointController(req, res) {
   }
 }
 // issue in getSingleEndpointController, as we change the params, if not there it should add the params but it delete the previous and add the new params
- 

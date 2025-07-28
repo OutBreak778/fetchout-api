@@ -10,7 +10,8 @@ import errorHandler from "./middleware/errorHandler.js"
 import authRoutes from "./routes/authRoutes.js"
 import apiEndpointRoutes from "./routes/apiEndpointRoute.js"
 import usageLogRoutes from "./routes/usageLogRoute.js"
-import paramsRoute from "./routes/paramsRoute.js"
+import paramsRoutes from "./routes/paramsRoute.js"
+import dashboardRoutes from "./routes/dashboardRoute.js"
 
 dotenv.config({quiet: true})
 const app = express()
@@ -29,7 +30,8 @@ app.use("/api/v1", routes)
 app.use("/auth", authRoutes)
 app.use("/api/endpoint", apiEndpointRoutes)
 app.use("/api/usage-log", usageLogRoutes)
-app.use("/api", paramsRoute)
+app.use("/api", paramsRoutes)
+app.use("/dashboard", dashboardRoutes)
 
 //Errors
 app.use(errorHandler)

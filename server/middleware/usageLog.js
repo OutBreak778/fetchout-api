@@ -7,7 +7,7 @@ export async function usageLog(req, res, next) {
   try {
     res.on("finish", async () => {
       try {
-        const responseTime = `${Date.now() - timeStamp} ms`;
+        const responseTime = Date.now() - timeStamp
         const urlPath = req.endpoint.urlPath;
         const userId = req.user._id;
         const endpointId = req.endpoint._id;

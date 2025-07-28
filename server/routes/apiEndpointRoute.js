@@ -16,6 +16,6 @@ router.get("/fetch-api/:slug", isUserVerify, endpointRateLimiter, getSingleEndpo
 router.delete("/delete-api/:slug", isUserVerify, deleteEndpointController)
 router.patch("/update-api/:slug", isUserVerify, updateEndpointController)
 
-router.get("/:slug/:apiKey", isUserVerify, isEndpointVerify, usageLog, getSingleEndpointController)
+router.all("/:slug/:apiKey", isUserVerify, isEndpointVerify, usageLog, getSingleEndpointController)
 
 export default router

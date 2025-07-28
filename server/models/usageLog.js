@@ -20,7 +20,7 @@ const usageLogSchema = new Schema({
         default: 200
     },
     responseTime: {
-        type: String,
+        type: Number,
     },
     urlPath: {
         type: String,
