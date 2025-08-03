@@ -67,3 +67,124 @@ export default tseslint.config([
   },
 ])
 ```
+
+
+```
+src/
+│
+├── assets/               # Static assets (images, icons, etc.)
+├── components/           # Reusable UI components (buttons, modals, inputs)
+├── features/             # Feature-based modules (auth, dashboard, api, etc.)
+├── pages/                # Page components (usually tied to routes)
+├── layouts/              # Shared layouts (auth layout, dashboard layout)
+├── routes/               # Route definitions and route guards
+├── hooks/                # Custom React hooks
+├── context/              # Global state using React Context API
+├── lib/                  # External libraries, config, API handlers
+├── utils/                # Helper functions (validation, formatting, etc.)
+├── constants/            # Static data, enums, config constants
+├── types/                # TypeScript types or JSDoc types
+├── styles/               # Global CSS / Tailwind config
+└── main.tsx              # Entry point
+└── App.tsx               # App component with Router setup
+
+
+components/
+├── ui/
+│   ├── Button.tsx
+│   ├── Input.tsx
+│   ├── Modal.tsx
+│   └── Avatar.tsx
+├── shared/
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   └── Sidebar.tsx
+
+
+
+features/
+├── auth/
+│   ├── components/      # Auth-specific components (e.g., AuthForm)
+│   ├── services.ts      # API calls
+│   ├── authSlice.ts     # Redux or Zustand slice (if used)
+│   └── index.tsx        # Export or route entry point
+
+├── dashboard/
+│   ├── components/
+│   ├── services.ts
+│   └── index.tsx
+
+├── api/
+│   ├── components/
+│   ├── services.ts
+│   └── index.tsx
+
+
+pages/
+├── Home.tsx
+├── Login.tsx
+├── Register.tsx
+├── Dashboard.tsx
+├── Error404.tsx
+├── ErrorBoundary.tsx
+
+
+layouts/
+├── AuthLayout.tsx       # Minimal layout for auth pages
+├── DashboardLayout.tsx  # Sidebar + Navbar for logged-in users
+└── MainLayout.tsx       # Default layout for home and public pages
+
+
+routes/
+├── index.tsx            # All route definitions
+├── PrivateRoute.tsx     # Auth-guarded routes
+└── PublicRoute.tsx
+
+
+hooks/
+├── useAuth.ts
+├── useDebounce.ts
+├── useScroll.ts
+├── useToggle.ts
+
+
+context/
+├── AuthContext.tsx
+├── ThemeContext.tsx
+└── APIProvider.tsx
+
+
+lib/
+├── axios.ts             # Axios instance
+├── fetcher.ts           # SWR or custom fetch
+├── auth.ts              # JWT decode, token checks
+└── shadcn-ui.ts         # Custom wrapper config for shadcn
+
+
+utils/
+├── validateEmail.ts
+├── formatDate.ts
+├── slugify.ts
+└── getInitials.ts
+
+
+constants/
+├── routes.ts
+├── roles.ts
+├── api.ts
+└── messages.ts
+
+
+types/
+├── user.d.ts
+├── api.d.ts
+├── auth.d.ts
+
+
+
+
+
+
+
+```
+
