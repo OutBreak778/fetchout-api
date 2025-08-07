@@ -1,37 +1,53 @@
-import { MailCheck, ChevronLeft } from "lucide-react";
-import { Button } from "@/components/ui/button"; // adjust path as per your structure
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const VerifyEmail = () => {
-    const navigate = useNavigate()
-    const isVerified = false
-    if(isVerified) {
-        navigate("/login")
-    }
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 w-full">
-      <div className="bg-white shadow-md rounded-2xl p-8 w-full max-w-md text-center">
-        <div className="flex flex-col items-center gap-4">
-          <MailCheck className="h-12 w-12 text-green-500" />
-          <h1 className="text-2xl font-semibold text-gray-800">
-            Check your email
-          </h1>
-          <p className="text-sm text-gray-600">
-            We've sent a verification link to your email address.
-            <br />
-            Didn’t get it? Check your spam folder 
-          </p>
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-          <Link to="/login" className="w-full">
-            <Button variant="default" className="w-full mt-4">
-              <ChevronLeft className="w-5 h-5 mr-2" />
-              Back to Login
-            </Button>
-          </Link>
+  useEffect(() => {
+    const token = searchParams.get("token");
+    if (!token) {
+      toast.error("No token found in URL");
+      return;
+    }
+
+    const verifyEmail = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/auth/verify-email?token=${token}`);
+        if (res.data.success) {
+          toast.success("Email verified successfully!");
+        } else {
+          toast.error(res.data.message || "Verification failed");
+          navigate("/login");
+        }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {
+        toast.error("Invalid or expired token");
+        navigate("/login");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    verifyEmail();
+  }, [searchParams, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 w-full">
+        <div className="text-center">
+          <h1 className="text-xl font-bold text-gray-800"><Loader2 className="w-10 h-10 animate-spin" /></h1>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  return null;
 };
 
 export default VerifyEmail;

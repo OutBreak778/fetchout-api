@@ -3,6 +3,8 @@ import logo from "../assets/logo.svg";
 import NavRoute from "./NavRoute";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "@/stores/useAuthStore";
+import UserButton from "./UserButton";
 
 const routes = [
   {
@@ -28,18 +30,25 @@ const routes = [
 ];
 
 const Navbar = () => {
-  const isAuthenticated = true;
+  const {isAuthenticated} = useAuthStore();
   return (
     <header className="w-full text-black py-3 px-4 shadow">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <img src={logo} alt="logo" className="w-10 h-10 invert" />
-          <span className="text-xl font-semibold text-black">Fetchout</span>
+
+
+        {/* Mobile Menu Icon */}
+        <div className="md:hidden">
+          <Menu className="w-6 h-6 text-gray-700 dark:text-white" />
         </div>
 
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2">
+          <img src={logo} alt="logo" className="w-10 h-10 invert" />
+          <span className="text-xl font-semibold text-black">Fetchout</span>
+        </Link>
+
         {/* Desktop Nav */}
-        {!isAuthenticated && (
+        {isAuthenticated && (
           <nav className="hidden md:flex items-center gap-6">
             {routes.map((item) => (
               <NavRoute key={item.id} title={item.title} route={item.route} />
@@ -54,10 +63,8 @@ const Navbar = () => {
           </Button>
         </Link>
 
-        {/* Mobile Menu Icon */}
-        <div className="md:hidden">
-          <Menu className="w-6 h-6 text-gray-700 dark:text-white" />
-        </div>
+        <UserButton />
+
       </div>
     </header>
   );

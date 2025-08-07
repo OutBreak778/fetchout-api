@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import api from "@/lib/axios";
 import type { RegisterType } from "@/types";
 import { ChevronLeft, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
@@ -59,13 +60,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   try {
     setLoading(true);
 
-    console.log(registerData);  
-    toast.success("User created successfully", {
-      action: {
-        label: "X",
-        onClick: () => {},
-      },
-    });
+    const URL = `${import.meta.env.VITE_SERVER_URL}/auth/register`
+    await api.post(URL, {userName, email, password})
+    toast.success("User created successfully.")
 
     setRegisterData({
       userName: "",
@@ -73,7 +70,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       password: "",
     });
 
-    // navigate("/verify-email");
+    navigate("/verify-email");
   } catch (error) {
     console.error("Error in Register Page:", error);
     toast.error("Registration failed. Try again.");
@@ -166,7 +163,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200"
+                className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200"
               >
                 {loading ? (
                   <div className="text-muted flex space-x-2 items-center">

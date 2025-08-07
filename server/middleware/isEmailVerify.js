@@ -1,3 +1,4 @@
+import { CLIENT_URL } from "../config/constants.js";
 import Token from "../models/token.js";
 import User from "../models/user.js";
 import logger from "../utils/logger.js";
@@ -48,10 +49,7 @@ export async function isEmailVerify(req, res, next) {
     await Token.findByIdAndDelete(tokenDecode._id)
 
     logger.info("User has been verified");
-    return res.status(201).json({
-      success: true,
-      message: "Email verified Successfully",
-    });
+    return res.status(201).redirect(`${CLIENT_URL}/verify-email`)
   } catch (error) {
     logger.error(`Error Occurred: ${error.message}`);
     return res.status(500).json({

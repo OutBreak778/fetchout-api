@@ -3,8 +3,9 @@ import { Navigate, Outlet } from "react-router-dom"
 import { toast } from "sonner"
 
 const PrivateRoutes = () => {
-  const {isAuthenticated} = useAuthStore()
-  if (!isAuthenticated) {
+  const {isAuthenticated } = useAuthStore()
+ 
+  if (isAuthenticated) {
     toast.error("Authentication failed.")
     return <Navigate to="/login" replace />;
   }

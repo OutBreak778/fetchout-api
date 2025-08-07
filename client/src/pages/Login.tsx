@@ -24,7 +24,7 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
-  const { login } = useAuthStore();
+  const { login, isLoading } = useAuthStore();
 
   const onChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -141,7 +141,7 @@ const Login = () => {
               </div>
               <Button
                 type="submit"
-                // disabled={!isLoading}
+                disabled={isLoading}
                 className="w-full flex items-center cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200"
               >
                 {loading ? (

@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function SendEmail(email, token) {
-  const link = `${CLIENT_URL}/auth/verify-email?token=${token}`;
+  const link = `${CLIENT_URL}/verify-email?token=${token}`;
 
 const mailOption = {
   from: MAIL_USER,

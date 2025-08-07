@@ -23,9 +23,9 @@ const AppRouter = () => {
       </Route>
 
       {/* Protected Routes */}
-      <Route element={<PrivateRoutes />}>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Route>
