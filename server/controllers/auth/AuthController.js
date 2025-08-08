@@ -47,11 +47,13 @@ export async function loginAuthController(req, res) {
     });
     res.cookie("token", authToken, {
       httpOnly: true,
+      secure: true, 
+      sameSite: "none",
       maxAge: 3 * 24 * 60 * 60 * 1000,
     });
 
     logger.info("User has loggedin successfully");
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: "Login successfully",
       user: {
@@ -62,38 +64,32 @@ export async function loginAuthController(req, res) {
     });
   } catch (error) {
     logger.error(`Internal Server Error: ${error.message}`);
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: error.message || "Internal Server error",
-      });
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Internal Server error",
+    });
   }
 }
 
 export async function logoutAuthController(req, res) {
   try {
-
     res.clearCookie("token", {
       httpOnly: true,
-    })
+    });
 
-    logger.info("Logout Successfully")
+    logger.info("Logout Successfully");
     return res.status(201).json({
       success: true,
-      message: "Logout Successfully"
-    })
-    
+      message: "Logout Successfully",
+    });
   } catch (error) {
-    logger.error(`Error occurred while logout: ${error.message}`)
+    logger.error(`Error occurred while logout: ${error.message}`);
     return res.status(500).json({
       success: false,
-      message: error.message || "Internal Server Error"
-    })
+      message: error.message || "Internal Server Error",
+    });
   }
 }
-
-
 
 // Register Controller Code
 

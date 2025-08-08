@@ -49,7 +49,7 @@ export async function isEmailVerify(req, res, next) {
     await Token.findByIdAndDelete(tokenDecode._id)
 
     logger.info("User has been verified");
-    return res.status(201).redirect(`${CLIENT_URL}/verify-email`)
+    return res.status(200).redirect(`${CLIENT_URL}/verify-email`)
   } catch (error) {
     logger.error(`Error Occurred: ${error.message}`);
     return res.status(500).json({

@@ -4,7 +4,7 @@ import logger from "../utils/logger.js";
 import jwt from "jsonwebtoken";
 
 export async function isUserVerify(req, res, next) {
-  const token = req.cookies.token;
+  const token = req.cookies?.token;
 
   if (!token) {
     logger.warn("Token is Required to verify User");

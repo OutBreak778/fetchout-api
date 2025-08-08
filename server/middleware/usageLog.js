@@ -34,8 +34,6 @@ export async function usageLog(req, res, next) {
         next();
       }
     });
-
-
     next();
   } catch (error) {
     logger.error(`User Verification Error: ${error.message}`);
