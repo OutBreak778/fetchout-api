@@ -1,24 +1,31 @@
-import Navbar from "@/components/Navbar";
+import MobileSidebar from "@/components/MobileSidebar";
+import Sidebar from "@/components/Sidebar";
+import UserButton from "@/components/UserButton";
 import { Outlet, useLocation } from "react-router-dom";
 
 export function MainLayout() {
   const { pathname } = useLocation();
-  const loca = pathname !== "/";
+  const showSidebar = pathname !== "/";
+  const showHamburger = pathname !== "/";
+
   return (
-    <div className="min-h-screen w-full flex">
-      {/* Sidebar */}
-      {loca && (
-        <aside className="w-64 bg-gray-900 text-white p-4">Sidebar</aside>
+    <div className="w-full h-screen flex bg-white">
+      {showSidebar && (
+        <aside className="w-64 hidden md:flex left-0 h-screen bg-white border-r border-gray-300">
+          <Sidebar />
+        </aside>
       )}
-      {/* Main Content */}
-      <div className="w-full">
-        {/* Navbar */}
-        <header className="h-16 sticky top-0 z-50 bg-white">
-          <Navbar />
+
+      <div className={`flex flex-col h-full w-full`}>
+        <header className="h-16 px-5 text-black border-b  border-gray-200 flex items-center justify-between py-4 bg-white z-40 w-full md:w-full">
+          <div className="hidden md:flex" />
+          <div className="md:hidden flex">
+            {showHamburger && <MobileSidebar />}
+          </div>
+          <UserButton />
         </header>
 
-        {/* Page Content */}
-        <main className="flex-1 bg-white">
+        <main className=" overflow-y-auto mt-1 no-scrollbar">
           <Outlet />
         </main>
       </div>

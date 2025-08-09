@@ -20,7 +20,8 @@ export type User = {
 export type AuthStore = {
     user: User | null
     isLoading: boolean
-    isAuthenticated: boolean
+    isAuthenticated: boolean | null
+    error: string | null
     login: (email: string, password: string) => Promise<void>
     logout: () => Promise<void>
     fetchUser: () => Promise<void>

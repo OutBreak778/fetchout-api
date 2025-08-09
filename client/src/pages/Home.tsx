@@ -13,8 +13,12 @@ import {
   // Activity,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const Home = () => {
+  const { isAuthenticated } = useAuthStore();
+
   const apiExample = `curl https://fetchoutapi.com/api/endpoint/city-weather \\
   --cookie "sessionId"=your-session-secret-token
   `;
@@ -91,6 +95,7 @@ const Home = () => {
   return (
     <>
       {/* Hero Section */}
+
       <section className="relative w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-800 bg-[size:20px_20px] [mask-image:radial-gradient(white,transparent_70%)]" />
@@ -127,8 +132,8 @@ const Home = () => {
 
               {/* Subheading */}
               <p className="text-md sm:text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
-                APIs. No setup. No hassle. Fetchout lets you focus on
-                logic while{" "}
+                APIs. No setup. No hassle. Fetchout lets you focus on logic
+                while{" "}
                 <span className="font-semibold text-slate-900 dark:text-white">
                   we handle everything else.
                 </span>
@@ -141,10 +146,17 @@ const Home = () => {
                   className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
                   asChild
                 >
-                  <a href="/login">
-                    Get Started
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </a>
+                  {isAuthenticated ? (
+                    <Link to="/dashboard">
+                      Dashboard
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Link>
+                  ) : (
+                    <Link to="/login">
+                      Get Started
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Link>
+                  )}
                 </Button>
 
                 <Button
@@ -346,12 +358,9 @@ const Home = () => {
             &copy; {new Date().getFullYear()} Fetchout. All rights reserved.
           </p>
           <div className="flex gap-4">
-            <div
-              className="hover:text-slate-900 flex text-lg dark:hover:text-white transition-colors"
-            >
+            <div className="hover:text-slate-900 flex text-lg dark:hover:text-white transition-colors">
               🧡 By <p className="font-bold ml-2">OUTBREAK</p>
             </div>
- 
           </div>
         </div>
       </footer>
