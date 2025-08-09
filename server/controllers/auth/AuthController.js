@@ -49,6 +49,7 @@ export async function loginAuthController(req, res) {
       httpOnly: true,
       secure: true, 
       sameSite: "none",
+      maxAge: 3 * 24 * 60 * 60 * 1000,
     });
 
     logger.info("User has loggedin successfully");
@@ -76,7 +77,6 @@ export async function logoutAuthController(req, res) {
       httpOnly: true,
       secure: true, 
       sameSite: "none",
-      maxAge: 3 * 24 * 60 * 60 * 1000,
     });
 
     logger.info("Logout Successfully");
