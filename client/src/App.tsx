@@ -3,11 +3,10 @@ import AppRouter from "./routes/AppRouter";
 import AuthLoader from "./components/AuthLoader";
 
 function App() {
-
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full no-scrollbar">
       <BrowserRouter>
-      <AuthLoader />
+        <AuthLoader />
         <AppRouter />
       </BrowserRouter>
     </div>

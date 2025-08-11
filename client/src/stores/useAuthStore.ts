@@ -25,8 +25,9 @@ export const useAuthStore = create<AuthStore>()(
           const response = await api.get(`${URL}/auth/user`, {
             withCredentials: true,
           });
+          // console.log(response.data.user)
           set({
-            user: response.data.user,
+            user: response.data.data,
             isLoading: false,
             isAuthenticated: true,
             error: null,
@@ -73,18 +74,25 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
       fetchUser: async () => {
+        set({ isLoading: true });
         try {
-          set({ isLoading: true });
           const response = await api.get(`${URL}/auth/user`, {
             withCredentials: true,
           });
 
-          set({
-            user: response.data.user,
+          set((item) => ({
+            ...item,
+            user: response.data.data,
             isAuthenticated: true,
             isLoading: false,
-          });
-        } catch (error) {
+          }));
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+          if (error.response?.status === 401) {
+            // Not logged in — clear auth state without error spam
+            set({ user: null, isAuthenticated: false, isLoading: false });
+            return;
+          }
           set({
             error: `Fetch User Failed in useAuthStore: ${error}`,
             isLoading: false,

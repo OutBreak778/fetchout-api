@@ -1,4 +1,4 @@
-import { BarChart3, Globe, Home, Settings } from "lucide-react";
+import { BarChart3, BookA, Clock, Globe, Home, Settings, Shield, User, Zap } from "lucide-react";
 
 export const routes = [
   {
@@ -19,10 +19,78 @@ export const routes = [
     route: "/usage-log",
     icon: BarChart3,
   },
+ 
+];
+
+export const userButtonRoutes = [
   {
-    id: 4,
+    id: 1,
+    title: "Profile",
+    route: "/profile",
+    icon: User
+  },
+  {
+    id: 2,
+    title: "Docs",
+    route: "/documentation",
+    icon: BookA
+  },
+  {
+    id: 3,
     title: "Settings",
     route: "/settings",
-    icon: Settings,
-  },
-];
+    icon: Settings
+  }
+]
+
+  export const apiExample = `curl https://fetchoutapi.com/api/endpoint/city-weather \\
+  --cookie "sessionId"=your-session-secret-token
+  `;
+
+  export const apiResponse = `{
+  "city": "San Francisco",
+  "temperature": "72°F",
+  "condition": "Sunny",
+  "humidity": "65%",
+  "wind_speed": "8 mph",
+  "timestamp": "2024-01-15T14:30:00Z"
+}`;
+
+  export const features = [
+    {
+      icon: Zap,
+      title: "Create in Minutes",
+      description:
+        "Zero config. One command. Your API is live globally with auto-scaling.",
+      gradient: "from-yellow-400 to-orange-500",
+      bgGradient:
+        "from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20",
+    },
+    {
+      icon: BarChart3,
+      title: "Better Analytics",
+      description:
+        "Request logs, performance metrics, and error tracking in one dashboard.",
+      gradient: "from-blue-400 to-purple-500",
+      bgGradient:
+        "from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20",
+    },
+    {
+      icon: Shield,
+      title: "Built-in Security",
+      description:
+        "Rate limiting, API keys, CORS, and DDoS protection out of the box.",
+      gradient: "from-green-400 to-teal-500",
+      bgGradient:
+        "from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20",
+    },
+    {
+      icon: Clock,
+      title: "Blazing Fast Response",
+      description:
+        "Sub-100ms latency across all endpoints with real-time performance monitoring.",
+      gradient: "from-blue-500 to-indigo-600",
+      bgGradient:
+        "from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20",
+    },
+  ];

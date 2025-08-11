@@ -1,19 +1,17 @@
 import { useAuthStore } from "@/stores/useAuthStore";
 import { Loader2 } from "lucide-react";
 import { Navigate, Outlet } from "react-router-dom";
-import { toast } from "sonner";
 
 const PrivateRoutes = () => {
- const { isLoading, isAuthenticated } = useAuthStore()
+  const { isLoading, isAuthenticated } = useAuthStore();
   if (isLoading) {
     return (
-      <div className="container w-full h-full bg-white">
-        <Loader2 className="w-12 h-12 animate-spin" />
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        <Loader2 className="h-12 w-12 text-white animate-spin" />
       </div>
     );
   }
   if (!isAuthenticated) {
-    toast.error("Please login first.");
     return <Navigate to="/login" replace />;
   }
 

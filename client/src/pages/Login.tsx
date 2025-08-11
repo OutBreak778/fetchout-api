@@ -24,7 +24,7 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
-  const {login, fetchUser} = useAuthStore()
+  const { login, fetchUser, isLoading } = useAuthStore();
 
   const onChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -56,23 +56,23 @@ const Login = () => {
       setLoading(true);
 
       await login(email, password);
-      await fetchUser()
+      await fetchUser();
       setLoading(false);
       setLoginData({
         email: "",
         password: "",
       });
-      navigate("/dashboard")
+      navigate("/dashboard");
+      toast.success("Login Successful.")
     } catch (error) {
       toast.error("Something went wrong!");
       console.log(`Error in Login: ${error}`);
     } finally {
       setLoading(false);
-      console.log(loginData)
       setLoginData({
         email: "",
-        password: ""
-      })
+        password: "",
+      });
     }
   };
 
@@ -144,6 +144,7 @@ const Login = () => {
               </div>
               <Button
                 type="submit"
+                disabled={isLoading}
                 className="w-full flex items-center cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors duration-200"
               >
                 {loading ? (
