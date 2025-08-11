@@ -31,7 +31,7 @@ export const userButtonRoutes = [
   },
   {
     id: 2,
-    title: "Docs",
+    title: "Documentation",
     route: "/documentation",
     icon: BookA
   },

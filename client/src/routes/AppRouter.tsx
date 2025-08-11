@@ -15,6 +15,7 @@ import Endpoint from "@/features/endpoint/components/Endpoint";
 import UsageLog from "@/features/usage-log/components/UsageLog";
 import Profile from "@/features/profile/components/Profile";
 import CreateEndpoint from "@/features/endpoint/components/CreateEndpoint";
+import Documentation from "@/components/Documentation";
 
 const AppRouter = () => {
   return (
@@ -50,6 +51,7 @@ const AppRouter = () => {
 
           {/* UserButton Routes */}
           <Route path="/profile" element={<Profile />} />
+          <Route path="/documentation" element={<Documentation />} />
           <Route path="/settings" element={<Settings />} />
 
           {/* Endpoint Routes */}

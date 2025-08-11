@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { formatJoinDate } from "@/lib/formatDate";
 import { GetInitial } from "@/lib/getInitials";
 import { userButtonRoutes } from "@/config";
-
+import userButtonIcon from "/user.png"
 
 const UserButton = ({ user }: userButtonProps) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -48,8 +48,8 @@ const UserButton = ({ user }: userButtonProps) => {
           variant="ghost"
           className="relative h-10 w-10 rounded-full ring-offset-background transition-all hover:ring-2 hover:ring-ring hover:ring-offset-2"
         >
-          <Avatar className="h-10 w-10">
-            <AvatarImage src={user.avatar} alt={user.userName} />
+          <Avatar className="h-10 w-10 border-2 border-gray-300">
+            <AvatarImage src={user.avatar || userButtonIcon} alt={user.userName} className="p-2" />
             <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500 text-white font-semibold">
               {GetInitial(user.userName)}
             </AvatarFallback>
@@ -61,7 +61,7 @@ const UserButton = ({ user }: userButtonProps) => {
         <DropdownMenuLabel className="p-0">
           <div className="flex items-center gap-3 p-4">
             <Avatar className="h-12 w-12">
-              <AvatarImage src={user.avatar} alt={user.userName} />
+              <AvatarImage src={user.avatar || userButtonIcon} alt={user.userName} className="p-2"/>
               <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500 text-white font-semibold text-lg">
                 {GetInitial(user.userName)}
               </AvatarFallback>
