@@ -49,7 +49,7 @@ const UserButton = ({ user }: userButtonProps) => {
           className="relative h-10 w-10 rounded-full ring-offset-background transition-all hover:ring-2 hover:ring-ring hover:ring-offset-2"
         >
           <Avatar className="h-10 w-10">
-            <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.userName} />
+            <AvatarImage src={user.avatar} alt={user.userName} />
             <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500 text-white font-semibold">
               {GetInitial(user.userName)}
             </AvatarFallback>
@@ -61,7 +61,7 @@ const UserButton = ({ user }: userButtonProps) => {
         <DropdownMenuLabel className="p-0">
           <div className="flex items-center gap-3 p-4">
             <Avatar className="h-12 w-12">
-              <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.userName} />
+              <AvatarImage src={user.avatar} alt={user.userName} />
               <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500 text-white font-semibold text-lg">
                 {GetInitial(user.userName)}
               </AvatarFallback>

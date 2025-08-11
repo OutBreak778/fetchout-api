@@ -32,7 +32,7 @@ const Sidebar = () => {
               className="flex items-center justify-center gap-2 px-4 py-3 text-white bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
             >
               <PlusIcon size={18} />
-              <span className="font-semibold text-sm">Create New Endpoint</span>
+              <span className="font-semibold text-sm">Create Endpoint</span>
             </Link>
           </div>
           <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider px-3 mt-4 mb-3">
