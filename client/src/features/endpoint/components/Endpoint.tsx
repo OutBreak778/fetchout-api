@@ -90,7 +90,7 @@ const Endpoint = () => {
       <div className="gap-4 mt-6">
         <EndpointCards filteredEndpoints={filteredEndpoint} />
       </div>
-      {data.length !== 0 && (
+      {data.length === 0 && (
         <div className="text-center py-12">
           <div className="w-24 h-24 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center">
             <Search className="w-12 h-12 text-muted-foreground" />

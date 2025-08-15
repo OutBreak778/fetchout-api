@@ -16,14 +16,13 @@ export async function isEmailVerify(req, res, next) {
   }
 
   try {
-
-    const tokenDecode = await Token.findOne({token})
-    if(!tokenDecode) {
-      logger.warn("Token not found in Token DB")
+    const tokenDecode = await Token.findOne({ token });
+    if (!tokenDecode) {
+      logger.warn("Token not found in Token DB");
       return res.status(400).json({
         success: false,
-        message: "Expired or Invalid Token provided here!"
-      })
+        message: "Expired or Invalid Token provided here!",
+      });
     }
 
     const decoded = jwt.verify(tokenDecode.token, process.env.JWT_SECRET_KEY);
@@ -46,10 +45,13 @@ export async function isEmailVerify(req, res, next) {
     user.isVerified = true;
     await user.save();
 
-    await Token.findByIdAndDelete(tokenDecode._id)
+    await Token.findByIdAndDelete(tokenDecode._id);
 
     logger.info("User has been verified");
-    return res.status(200).redirect(`${CLIENT_URL}/verify-email`)
+    return res.status(200).json({
+      success: true,
+      message: "Email verified successfully",
+    });
   } catch (error) {
     logger.error(`Error Occurred: ${error.message}`);
     return res.status(500).json({
