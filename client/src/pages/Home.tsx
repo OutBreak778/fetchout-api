@@ -5,6 +5,7 @@ import {
   Zap,
   Code,
   Globe,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -12,8 +13,14 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { apiExample, apiResponse, features } from "@/config";
 
 const Home = () => {
-  const { isAuthenticated } = useAuthStore();
-
+  const { isAuthenticated, isLoading } = useAuthStore();
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        <Loader2 className="h-12 w-12 text-white animate-spin" />
+      </div>
+    );
+  }
   // const steps = [
   //   {
   //     icon: PlusCircle,

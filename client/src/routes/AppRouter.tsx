@@ -14,8 +14,9 @@ import Settings from "@/components/Settings";
 import Endpoint from "@/features/endpoint/components/Endpoint";
 import UsageLog from "@/features/usage-log/components/UsageLog";
 import Profile from "@/features/profile/components/Profile";
-import CreateEndpoint from "@/features/endpoint/components/CreateEndpoint";
 import Documentation from "@/components/Documentation";
+import EditProfile from "@/features/profile/components/EditProfile";
+import CreateEndpoint from "@/features/create-api/components/CreateEndpoint";
 
 const AppRouter = () => {
   return (
@@ -51,6 +52,9 @@ const AppRouter = () => {
 
           {/* UserButton Routes */}
           <Route path="/profile" element={<Profile />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+
+
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/settings" element={<Settings />} />
 

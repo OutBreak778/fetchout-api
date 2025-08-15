@@ -36,3 +36,67 @@ export type userButtonProps =  {
     isVerified?: boolean | string;
   };
 }
+
+export interface ResponseField {
+  id: string
+  key: string
+  value: string
+  type: "string" | "number" | "boolean" | "array" | "object"
+}
+
+export type responseStructure = {
+  id: string
+  type: "object" | "array",
+  fields: ResponseField[],
+}
+
+
+type ParmasData = {
+  name: string;
+}
+
+export type ResponseData = Record<string, string | number | string[]>;
+
+export type CreateEndpointData = {
+  name: string;
+  description: string;
+  methods: "GET" | "POST" | "PUT" | "DELETE";
+  params: ParmasData[];
+  response: responseStructure[];
+  hits: number;
+  rateLimit: {
+    limit: number;
+    period: number;
+  };
+  isPublic: boolean;
+};
+
+type methodType = "GET" | "POST" | "PUT" | "DELETE"
+
+export type EndpointData = {
+  _id: string;
+  name: string;
+  description: string;
+  methods: methodType;
+  slug: string;
+  params: { name: string; _id: string }[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  response: Record<string, any> | Record<string, any>[];
+  urlPath: string;
+  apiKey: string;
+    rateLimit: {
+    limit: number;
+    period: number;
+  };
+  hits: number;
+  isPublic: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type EndpointStore = {
+  data: EndpointData[],
+  isLoading: boolean
+  error: string | null
+  fetchEndpoint: () => Promise<void>
+}

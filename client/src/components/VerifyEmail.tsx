@@ -39,7 +39,7 @@ const VerifyEmail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center w-full bg-white text-gray-800">
         <Loader2 className="w-6 h-6 animate-spin" />
         <span className="ml-2">Verifying your email...</span>
       </div>

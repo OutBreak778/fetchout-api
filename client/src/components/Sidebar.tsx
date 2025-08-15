@@ -20,7 +20,7 @@ const Sidebar = () => {
           className="h-16 flex items-center justify-center space-x-2 border-b border-gray-200"
         >
           <img src={logo} alt="logo" className="invert w-10 h-10" />
-          <span className="text-xl font-bold">FetchOut</span>
+          <span className="text-xl font-bold">Fetchout</span>
         </Link>
 
         {/* Navigation */}
@@ -29,6 +29,8 @@ const Sidebar = () => {
           <div className="pt-4">
             <Link
               to="/create-api"
+              aria-label="Create"
+              title="Create"
               className="flex items-center justify-center gap-2 px-4 py-3 text-white bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
             >
               <PlusIcon size={18} />
@@ -87,7 +89,7 @@ const Sidebar = () => {
       <div className="border-t border-gray-200 bg-gray-50 w-full">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 py-3 px-3 text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200 group"
+          className="w-full flex items-center cursor-pointer gap-3 py-3 px-3 text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200 group"
         >
           <div className="p-2 rounded-lg bg-gray-100 text-gray-500 group-hover:bg-red-100 group-hover:text-red-500">
             <LogOut size={18} />
