@@ -43,8 +43,8 @@ const EndpointResponseEditor = ({
   setResponse,
 }: EndpointResponseEditorProps) => {
   const [mode, setMode] = useState<"form" | "raw">("form");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rawJSON, setRawJSON] = useState("");
+  console.log(rawJSON)
   const [expandedObjects, setExpandedObjects] = useState(new Set());
 
   const addStructure = (type: "array" | "object" = "object") => {
