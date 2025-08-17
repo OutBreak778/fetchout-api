@@ -25,7 +25,7 @@ const AppRouter = () => {
       <Route
         path="/"
         element={
-          <div className="bg-white text-black">
+          <div className="bg-white h-full w-full text-black">
             <div className="border-b sticky top-0 z-40 bg-transparent backdrop-blur-lg border-gray-300">
               <Navbar />
             </div>

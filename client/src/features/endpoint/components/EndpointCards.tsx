@@ -1,7 +1,5 @@
 import {
   Copy,
-  // ExternalLink,
-  // Eye,
   Zap,
   Globe,
   Lock,
@@ -10,12 +8,7 @@ import {
   Star,
   Code,
   Activity,
-  Database,
-  Plus,
-  RefreshCw,
-  AlertCircle,
   Eye,
-  ExternalLink,
   EyeOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -33,14 +26,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
@@ -53,28 +38,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Separator } from "@/components/ui/separator";
+import { methodColors, methodIcons } from "@/config";
 
 interface EndpointCardProps {
   filteredEndpoints: EndpointData[];
 }
-
-const methodColors = {
-  GET: "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700",
-  POST: "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700",
-  PUT: "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700",
-  DELETE:
-    "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700",
-  PATCH:
-    "bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-700",
-};
-
-const methodIcons = {
-  GET: Database,
-  POST: Plus,
-  PUT: RefreshCw,
-  DELETE: AlertCircle,
-  PATCH: Code,
-};
 
 const EndpointCards = ({ filteredEndpoints }: EndpointCardProps) => {
   const [showApiKey, setShowApiKey] = useState<boolean>(false);
@@ -92,12 +60,13 @@ const EndpointCards = ({ filteredEndpoints }: EndpointCardProps) => {
         const isHighTraffic = endpoint.hits > 1000;
         const MethodIcon = methodIcons[endpoint.methods] || Code;
         const isNew = formatDate(endpoint.createdAt).includes("day");
+        const cleanedPath = endpoint.urlPath.split("/").slice(0, -1).join("/");
 
         return (
           <div
             key={endpoint._id}
             className={`group relative bg-card border-2 border-gray-200 rounded-2xl p-6 transition-all duration-300 card-hover hover:shadow-2xl hover:border-primary/30 w-full ${
-              isNew ? "pulse-glow border-primary/30" : "border-border"
+              isNew ? "pulse-glow border-primary/30 shadow-xl" : "border-border"
             }`}
           >
             {/* Card Header */}
@@ -176,12 +145,12 @@ const EndpointCards = ({ filteredEndpoints }: EndpointCardProps) => {
               <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg border border-border/50">
                 <Code className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                 <code className="text-sm font-mono text-card-foreground flex-1 truncate">
-                  {endpoint.urlPath}
+                  {cleanedPath}
                 </code>
                 <Button
                   size="sm"
                   variant="ghost"
-                  onClick={() => copyToClipboard(endpoint.urlPath)}
+                  onClick={() => copyToClipboard(cleanedPath)}
                   className="h-6 w-6 p-0 hover:bg-primary/10"
                 >
                   <Copy className="w-3 h-3" />
@@ -243,7 +212,7 @@ const EndpointCards = ({ filteredEndpoints }: EndpointCardProps) => {
                     View Details
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto no-scrollbar">
+                <DialogContent className="!w-[500px] !max-w-none overflow-y-auto no-scrollbar">
                   <DialogHeader>
                     <DialogTitle className="flex text-gray-800 items-center gap-2">
                       {endpoint.name}
@@ -280,45 +249,51 @@ const EndpointCards = ({ filteredEndpoints }: EndpointCardProps) => {
                           </Label>
                           <div className="flex items-center gap-2 mt-1 overflow-x-scroll no-scrollbar">
                             <code className="bg-muted px-2 py-1 rounded text-sm flex-1">
-                              {endpoint.urlPath}
+                              {cleanedPath}
                             </code>
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => copyToClipboard(endpoint.urlPath)}
+                              onClick={() => copyToClipboard(cleanedPath)}
+                              aria-label="Copy Link"
+                              name="Copy the Link"
                             >
                               <Copy className="w-3 h-3" />
                             </Button>
                           </div>
                         </div>
-                        <div>
-                          <Label className="text-sm font-medium">API Key</Label>
-                          <div className="flex items-center gap-2 mt-1">
-                            <code className="px-2 py-1 rounded text-sm flex-1">
-                              {showApiKey
-                                ? endpoint.apiKey
-                                : "ptfo_••••••••••••••••••••••••••••••••"}
-                            </code>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => setShowApiKey(!showApiKey)}
-                            >
-                              {showApiKey ? (
-                                <EyeOff className="w-3 h-3" />
-                              ) : (
-                                <Eye className="w-3 h-3" />
-                              )}
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => copyToClipboard(endpoint.apiKey)}
-                            >
-                              <Copy className="w-3 h-3" />
-                            </Button>
+                        {endpoint.isPublic && (
+                          <div>
+                            <Label className="text-sm font-medium">
+                              API Key
+                            </Label>
+                            <div className="flex items-center gap-2 mt-1">
+                              <code className="px-2 py-1 rounded text-sm flex-1">
+                                {showApiKey
+                                  ? endpoint.apiKey
+                                  : "ptfo_••••••••••••••••••••••••••••••••"}
+                              </code>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => setShowApiKey(!showApiKey)}
+                              >
+                                {showApiKey ? (
+                                  <EyeOff className="w-3 h-3" />
+                                ) : (
+                                  <Eye className="w-3 h-3" />
+                                )}
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => copyToClipboard(endpoint.apiKey)}
+                              >
+                                <Copy className="w-3 h-3" />
+                              </Button>
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </div>
                       <Separator className="my-6" />
                       <div className="grid grid-cols-3 gap-4">
@@ -354,6 +329,7 @@ const EndpointCards = ({ filteredEndpoints }: EndpointCardProps) => {
                       <Table className="border border-gray-300">
                         <TableHeader>
                           <TableRow>
+                            <TableHead>type</TableHead>
                             <TableHead>Name</TableHead>
                             <TableHead>Parameter ID</TableHead>
                           </TableRow>
@@ -367,6 +343,7 @@ const EndpointCards = ({ filteredEndpoints }: EndpointCardProps) => {
                                   {param.name}
                                 </code>
                               </TableCell>
+                              <TableCell>{param._id}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -384,14 +361,14 @@ const EndpointCards = ({ filteredEndpoints }: EndpointCardProps) => {
                         <div className="p-4 rounded-lg mt-2">
                           <pre className="text-sm overflow-auto px-3 py-2 border-2 border-gray-200 no-scrollbar">
                             <code className="text-gray-500">
-                              {`${endpoint.methods} ${endpoint.urlPath}
+                              {`${endpoint.methods} ${" "} ${cleanedPath}
 Headers: { "Authorization": "Bearer ${endpoint.apiKey}" }`}
                             </code>
                           </pre>
                         </div>
                       </div>
 
-                      <div className="border px-2 py-3 max-w-[440px] overflow-auto border-gray-300 rounded-xl">
+                      <div className="border px-2 py-3 max-w-[440px] no-scrollbar !max-h-[200px] overflow-y-scroll border-gray-300 rounded-xl">
                         <Label className="text-sm font-medium">
                           Example Response
                         </Label>
@@ -403,21 +380,35 @@ Headers: { "Authorization": "Bearer ${endpoint.apiKey}" }`}
                           </pre>
                         </div>
                       </div>
-
-                      <Button
-                        className="w-full bg-transparent"
-                        variant="outline"
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Test Endpoint
-                      </Button>
                     </TabsContent>
 
                     <TabsContent
                       value="metadata"
                       className="space-y-4 text-gray-800"
                     >
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-2 gap-4 mt-3">
+                        <div>
+                          <Label className="text-sm font-medium">
+                            Endpoint Name
+                          </Label>
+                          <p className="text-sm mt-1 font-mono">
+                            {endpoint.name}
+                          </p>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-medium">Slug</Label>
+                          <p className="text-sm mt-1 font-mono">
+                            {endpoint.slug}
+                          </p>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-medium">
+                            Endpoint ID
+                          </Label>
+                          <p className="text-sm mt-1 font-mono">
+                            {endpoint._id}
+                          </p>
+                        </div>
                         <div>
                           <Label className="text-sm font-medium">
                             Created At
@@ -434,18 +425,6 @@ Headers: { "Authorization": "Bearer ${endpoint.apiKey}" }`}
                             {new Date(endpoint.updatedAt).toLocaleDateString()}
                           </p>
                         </div>
-                        <div>
-                          <Label className="text-sm font-medium">Slug</Label>
-                          <p className="text-sm mt-1 font-mono">
-                            {endpoint.slug}
-                          </p>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-medium">Endpoint ID</Label>
-                          <p className="text-sm mt-1 font-mono">
-                            {endpoint._id}
-                          </p>
-                        </div>
                       </div>
                     </TabsContent>
                   </Tabs>
@@ -455,14 +434,13 @@ Headers: { "Authorization": "Bearer ${endpoint.apiKey}" }`}
               <Button
                 variant="outline"
                 size="sm"
-                className="px-3 hover:bg-primary/10 hover:border-primary/30 transition-all bg-transparent"
-                onClick={() => copyToClipboard(endpoint.urlPath)}
+                className="px-3 hover:bg-primary/10 hover:border-primary/30 transition-all bg-transparent cursor-pointer"
+                onClick={() => copyToClipboard(cleanedPath)}
                 aria-label="Copy Link"
                 name="Copy the Link"
               >
                 <Copy className="w-4 h-4" />
               </Button>
- 
             </div>
 
             {/* Hover Overlay Effect */}

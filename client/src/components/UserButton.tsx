@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { formatJoinDate } from "@/lib/formatDate";
 import { GetInitial } from "@/lib/getInitials";
 import { userButtonRoutes } from "@/config";
-import userButtonIcon from "/user.png"
+import userButtonIcon from "/user4.png"
 
 const UserButton = ({ user }: userButtonProps) => {
   const [isOpen, setIsOpen] = useState(false)

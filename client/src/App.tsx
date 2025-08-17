@@ -4,7 +4,7 @@ import AuthLoader from "./components/AuthLoader";
 
 function App() {
   return (
-    <div className="w-full h-full no-scrollbar">
+    <div className="w-full no-scrollbar min-h-screen">
       <BrowserRouter>
         <AuthLoader />
         <AppRouter />

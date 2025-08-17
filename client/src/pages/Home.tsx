@@ -1,12 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import {
-  Copy,
-  ArrowRight,
-  Zap,
-  Code,
-  Globe,
-  Loader2,
-} from "lucide-react";
+import { Copy, ArrowRight, Zap, Code, Globe, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "@/stores/useAuthStore";
@@ -21,32 +14,12 @@ const Home = () => {
       </div>
     );
   }
-  // const steps = [
-  //   {
-  //     icon: PlusCircle,
-  //     title: "Create Your API Endpoint",
-  //     description:
-  //       "Define methods (GET/POST), parameters, and authentication types in minutes.",
-  //   },
-  //   {
-  //     icon: Key,
-  //     title: "Integrate & Monitor Instantly",
-  //     description:
-  //       "Copy generated URL. Real-time logging starts immediately.",
-  //   },
-  //   {
-  //     icon: Activity,
-  //     title: "Manage & Scale with Ease",
-  //     description:
-  //       "Monitor usage, edit endpoints, and set rate limits from your dashboard.",
-  //   },
-  // ];
 
   return (
-    <div className="no-scrollbar">
+    <div className="no-scrollbar min-h-screen flex flex-col">
+      {" "}
       {/* Hero Section */}
-
-      <section className="relative w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
+      <section className="relative w-full flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-800 bg-[size:20px_20px] [mask-image:radial-gradient(white,transparent_70%)]" />
 
@@ -194,7 +167,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
       {/* Feature Section */}
       <section className="py-6 bg-slate-50 dark:bg-slate-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
@@ -263,44 +235,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Ste by Step Actions */}
-      {/* <section className="py-24 bg-white dark:bg-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4">
-              From Idea to API in 3 Steps
-            </h2>
-            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Fetchout simplifies the entire API lifecycle, so you can focus on
-              building.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {steps.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <div
-                  key={index}
-                  className="group relative bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-slate-200 dark:border-slate-700"
-                >
-                  <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-blue-600 text-white mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm mb-6">
-                    {step.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section> */}
-
       {/* Footer Section */}
       <footer className="h-20 flex items-center justify-center bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full text-sm text-slate-600 dark:text-slate-400">
