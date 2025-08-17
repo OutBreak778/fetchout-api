@@ -38,12 +38,12 @@ const apiEndpointSchema = new Schema(
     },
     urlPath: {
       type: String,
-      required: true,
+      required: false,
       unique: true
     },
     apiKey: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
     },
     hits: {
