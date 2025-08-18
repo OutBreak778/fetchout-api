@@ -16,7 +16,6 @@ import userRoutes from "./routes/userRoute.js";
 
 dotenv.config({ quiet: true });
 const app = express();
-
 // Middleware
 app.use(helmet());
 app.use(morgan("dev"));
@@ -30,7 +29,6 @@ app.use(
   })
 );
 app.use(cookieParser());
-
 //Routes
 app.use("/api/v1", routes);
 app.use("/auth", authRoutes);
