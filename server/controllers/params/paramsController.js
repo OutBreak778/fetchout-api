@@ -31,19 +31,21 @@ export async function paramsController(req, res) {
 
     // Case 1: Response is an array
     if (Array.isArray(rawResponse)) {
-      filteredResponse = rawResponse.filter((item) => {
-        // If item has fields[], flatten them for filtering
-        const flatItem = item.fields
-          ? item.fields.reduce((acc, f) => ({ ...acc, [f.key]: f.value }), {})
-          : item;
-
-        return Object.entries(filters).every(([key, value]) => {
-          if (typeof flatItem[key] === "string") {
-            return flatItem[key].toLowerCase() === value.toLowerCase();
-          }
-          return flatItem[key] == value;
+      filteredResponse = rawResponse
+        .map((item) => {
+          const flatItem = item.fields
+            ? item.fields.reduce((acc, f) => ({ ...acc, [f.key]: f.value }), {})
+            : item;
+          return { ...flatItem }; // return flattened
+        })
+        .filter((flatItem) => {
+          return Object.entries(filters).every(([key, value]) => {
+            if (typeof flatItem[key] === "string") {
+              return flatItem[key].toLowerCase() === value.toLowerCase();
+            }
+            return flatItem[key] == value;
+          });
         });
-      });
     } else if (typeof rawResponse === "object" && rawResponse !== null) {
       const match = Object.entries(filters).every(([key, value]) => {
         if (!(key in rawResponse)) return false;

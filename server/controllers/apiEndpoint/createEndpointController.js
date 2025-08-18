@@ -1,5 +1,4 @@
 import slugify from "slugify";
-import { CLIENT_URL, SERVER_URL } from "../../config/constants.js";
 import ApiEndpoint from "../../models/apiEndpoint.js";
 import logger from "../../utils/logger.js";
 import crypto from "crypto";
@@ -69,7 +68,7 @@ export async function createEndpointController(req, res) {
       params,
       response,
       apiKey,
-      urlPath: `${SERVER_URL}/api/${slugData}/${apiKey}`,
+      urlPath: `${process.env.SERVER_URL}/api/${slugData}/${apiKey}`,
       hits: 0,
       rateLimit: finalRateLimit,
       isPublic
@@ -83,7 +82,7 @@ export async function createEndpointController(req, res) {
       message: "API endpointed Created!",
       endpoint: {
         name,
-        url: `${SERVER_URL}/api/${slugData}/${apiKey}`,
+        url: `${process.env.SERVER_URL}/api/${slugData}/${apiKey}`,
         apiKey,
         methods,
         params,
