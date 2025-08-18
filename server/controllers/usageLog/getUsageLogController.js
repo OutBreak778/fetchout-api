@@ -5,7 +5,7 @@ import logger from "../../utils/logger.js";
 export async function getAllUsageLogController(req, res) {
   try {
     const userId = req.user._id;
-    const logs = await UsageModel.find({ userId });
+    const logs = await UsageModel.find({ userId }).populate("userId", "userName, email").populate("endpointId", "name slug description")
 
     if (!logs || logs.length === 0) {
       logger.warn("There are no logs found in DB");
