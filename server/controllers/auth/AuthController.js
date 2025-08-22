@@ -46,9 +46,9 @@ export async function loginAuthController(req, res) {
       expiresIn: "3d",
     });
     res.cookie("token", authToken, {
-      httpOnly: true,
-      secure: true, 
-      sameSite: "none",
+      // httpOnly: true,
+      // secure: true, 
+      // sameSite: "none",
       maxAge: 3 * 24 * 60 * 60 * 1000,
     });
 

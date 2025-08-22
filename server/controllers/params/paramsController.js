@@ -4,7 +4,9 @@ import logger from "../../utils/logger.js";
 export async function paramsController(req, res) {
   const { slug } = req.params;
   try {
-    const endpoint = await ApiEndpoint.findOne({ slug });
+    const endpoint = await ApiEndpoint.findOne(
+      { slug },
+    );
     if (!endpoint) {
       logger.warn("No Endpoint provided");
       return res.status(404).json({
@@ -59,10 +61,14 @@ export async function paramsController(req, res) {
 
       filteredResponse = match ? [rawResponse] : [];
     }
+    endpoint.hits = (endpoint.hits || 0) + 1;
+    endpoint.markModified("hits");
+    await endpoint.save();
 
     return res.status(200).json({
       success: true,
       message: "Filtered Response: ",
+      hits: endpoint.hits,
       count: filteredResponse.length,
       data: filteredResponse,
     });
