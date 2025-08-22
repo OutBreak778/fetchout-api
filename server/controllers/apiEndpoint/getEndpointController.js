@@ -27,7 +27,7 @@ export async function getSingleEndpointController(req, res) {
   const { slug } = req.params;
 
   try {
-    const endpoint = await ApiEndpoint.findOne({ slug });
+    const endpoint = await ApiEndpoint.findOne({ slug  })
     if (!endpoint) {
       logger.warn(`No endpoint found for slug: ${slug}`);
       return res.status(404).json({

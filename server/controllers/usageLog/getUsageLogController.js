@@ -56,7 +56,7 @@ export async function getSingleUsageController(req, res) {
     }
 
     const usage = await UsageModel.find({ endpointId: endpoint._id });
-    console.log(usage.length);
+    // console.log(usage.length);
 
     return res.status(200).json({
       success: true,
