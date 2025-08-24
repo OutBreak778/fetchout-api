@@ -17,6 +17,7 @@ import Profile from "@/features/profile/components/Profile";
 import Documentation from "@/components/Documentation";
 import EditProfile from "@/features/profile/components/EditProfile";
 import CreateEndpoint from "@/features/create-api/components/CreateEndpoint";
+import UsageLogSlug from "@/features/usage-log/components/UsageLogSlug";
 
 const AppRouter = () => {
   return (
@@ -45,15 +46,18 @@ const AppRouter = () => {
       <Route element={<MainLayout />}>
         <Route element={<PrivateRoutes />}>
           <Route element={<AuthLayout />} />
+          
           {/* Sidebar Routes */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/endpoints" element={<Endpoint />} />
+
+
           <Route path="/usage-log" element={<UsageLog />} />
+          <Route path="/usage-log/:slug" element={<UsageLogSlug />} />
 
           {/* UserButton Routes */}
           <Route path="/profile" element={<Profile />} />
           <Route path="/edit-profile" element={<EditProfile />} />
-
 
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/settings" element={<Settings />} />

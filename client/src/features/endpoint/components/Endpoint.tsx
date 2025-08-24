@@ -58,14 +58,6 @@ const Endpoint = () => {
     hasFetched.current = true;
   }, [fetchEndpoint]);
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center text-gray-600 justify-center w-full h-full">
-        <Loader2 className="w-10 h-10 animate-spin" />
-      </div>
-    );
-  }
-
   return (
     <div className="text-gray-800">
       <div className="flex justify-between flex-col md:flex-row">
@@ -73,17 +65,17 @@ const Endpoint = () => {
           title="View All Endpoints"
           description="View, Verify and manage you API endpoints from here."
           icon={Globe}
-          iconColor="text-blue-400"
-          bgColor="bg-blue-100"
+          iconColor="text-black-400"
+          bgColor="bg-gray-100"
         />
-        <Button className="border-2 border-gray-200 bg-gradient-to-r from-blue-500 to-indigo-500 cursor-pointer">
+        <Button className="border-2 border-gray-200 bg-gradient-to-r from-black to-black rounded-lg hover:scale-105 transition-all hover:shadow-2xl cursor-pointer">
           <Link to="/create-api" className="flex items-center justify-center">
             <Plus className="w-6 h-6 mr-2" />
             Create Endpoint
           </Link>
         </Button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 mt-3 gap-3 min-w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 mt-3 gap-3 max-w-7xl mx-auto">
         <div className="flex items-center justify-center relative rounded-md w-full">
           <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-800" />
           <Input
@@ -94,7 +86,8 @@ const Endpoint = () => {
           />
         </div>
 
-        <div className="flex items-center gap-x-3">
+        <div className="flex flex-col md:flex-row w-full items-center gap-x-3 space-y-2">
+          <div className="flex flex-row w-full md:w-auto space-x-4">
           <Select value={methodFilter} onValueChange={setMethodFilter}>
             <SelectTrigger
               className="w-full md:w-fit cursor-pointer"
@@ -139,43 +132,54 @@ const Endpoint = () => {
               </SelectItem>
             </SelectContent>
           </Select>
-
-          <div className="space-y-2 min-w-[200px]">
-            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              Rate Limit ({rateLimitRange[0]}-{rateLimitRange[1]} req per min)
-            </Label>
-            <div className="py-2 rounded-md bg-background border-none">
-              <Slider
-                value={rateLimitRange}
-                onValueChange={setRateLimitRange}
-                max={200}
-                min={0}
-                step={5}
-                className="w-full"
-              />
-            </div>
           </div>
-          {(methodFilter !== "all" || visibleFilter !== "all" || rateLimitRange[0] !== 0 ||
-                rateLimitRange[1] !== 200) && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setMethodFilter("all");
-                setVisibleFilter("all");
-                                    setRateLimitRange([0, 200])
-              }}
-              className="bg-red-50 text-red-600 cursor-pointer"
-            >
-              Reset filters
-            </Button>
-          )}
+
+          <div className="flex flex-row w-full gap-4 ml-2 md:ml-0 mt-2 md:mt-0">
+            <div className="space-y-2 min-w-[200px]">
+              <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                Rate Limit ({rateLimitRange[0]}-{rateLimitRange[1]} req per min)
+              </Label>
+              <div className="py-2 rounded-md w-full bg-background border-none">
+                <Slider
+                  value={rateLimitRange}
+                  onValueChange={setRateLimitRange}
+                  max={200}
+                  min={0}
+                  step={5}
+                  className="w-full"
+                />
+              </div>
+            </div>
+            {(methodFilter !== "all" ||
+              visibleFilter !== "all" ||
+              rateLimitRange[0] !== 0 ||
+              rateLimitRange[1] !== 200) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setMethodFilter("all");
+                  setVisibleFilter("all");
+                  setRateLimitRange([0, 200]);
+                }}
+                className="bg-red-50 text-red-600 cursor-pointer"
+              >
+                Reset filters
+              </Button>
+            )}
+          </div>
         </div>
       </div>
-      <div className="gap-4 mt-6">
-        <EndpointCards filteredEndpoints={filteredEndpoint} />
+      <div className="gap-4 mt-6 max-w-7xl mx-auto">
+        {isLoading && data ? (
+          <div className="flex items-center text-gray-600 justify-center w-full min-h-[90vh]">
+            <Loader2 className="w-10 h-10 animate-spin" />
+          </div>
+        ) : (
+          <EndpointCards filteredEndpoints={filteredEndpoint} />
+        )}
       </div>
-      {data.length === 0 && (
+      {filteredEndpoint.length === 0 && (
         <div className="text-center py-12">
           <div className="w-24 h-24 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center">
             <Search className="w-12 h-12 text-muted-foreground" />

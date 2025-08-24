@@ -1,84 +1,48 @@
 // import { Link } from "react-router-dom";
 // import { Button } from "./ui/button";
-// import { LogOut } from "lucide-react";
+// import { LogOut, type LucideIcon } from "lucide-react";
 
 // interface NavRouteProps {
 //   title: string;
 //   route: string;
+//   isActive: boolean;
+//   icon: LucideIcon;
 // }
 
-// const NavRoute = ({ title, route }: NavRouteProps) => {
+// const NavRoute = ({ title, route, icon, isActive }: NavRouteProps) => {
+//   const IconComponent = icon;
+
 //   return (
-//     <div>
-//       {/* Header with Logo */}
-//       <div className="border-b border-sidebar-border">
-//         <div className="flex items-center gap-3 px-3 py-4">
-//           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold text-lg">
-//             A
-//           </div>
-//           <div className="flex flex-col">
-//             <span className="text-lg font-semibold text-sidebar-foreground">
-//               API Hub
-//             </span>
-//             <span className="text-xs text-sidebar-foreground/60">
-//               v2.1.0
-//             </span>
-//           </div>
-//         </div>
+//     <div
+//       className={`group relative flex items-center gap-3 py-3 px-3 rounded-xl transition-all duration-200 w-full ${
+//         isActive
+//           ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
+//           : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
+//       }`}
+//     >
+//       <div
+//         className={`relative p-2 rounded-lg transition-all duration-200 ${
+//           isActive
+//             ? "bg-primary text-primary-foreground shadow-md"
+//             : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"
+//         }`}
+//       >
+//         <IconComponent size={18} />
+//         {isActive && (
+//           <div className="absolute -inset-1 bg-primary/20 rounded-lg blur opacity-50"></div>
+//         )}
 //       </div>
 
-//       {/* Navigation Content */}
-//       <div className="px-2">
-//         <div className="py-2">
-//           <div>
- 
-//                 <div>
-//                   <div 
-//                     className="w-full justify-start gap-3 px-3 py-2.5 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-//                   >
-//                     <Link to={route} className="flex items-center gap-3">
-//                       <span className="truncate">{title}</span>
-//                     </Link>
-//                   </div>
-//                 </div>
- 
-//             Routes will be here...
-//           </div>
-//         </div>
-//       </div>
+//       <>
+//         <span className="font-medium flex-1 text-left">{title}</span>
+//         {isActive && (
+//           <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+//         )}
+//       </>
 
-//       {/* Footer with Logout */}
-//       <div className="border-t border-sidebar-border">
-//         <div className="p-2">
-//           <div>
-//             <div>
-//               <Button
-//                 variant="ghost"
-//                 className="w-full justify-start gap-3 px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-950 dark:hover:text-red-300"
-//               >
-//                 <LogOut className="h-4 w-4 shrink-0" />
-//                 <span>Logout</span>
-//               </Button>
-//             </div>
-//           </div>
-//         </div>
-        
-//         {/* User Info */}
-//         <div className="px-3 py-2 border-t border-sidebar-border/50">
-//           <div className="flex items-center gap-3">
-//             <div className="h-8 w-8 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white text-sm font-medium">
-//               JD
-//             </div>
-//             <div className="flex flex-col min-w-0">
-//               <span className="text-sm font-medium text-sidebar-foreground truncate">
-//                 John Doe
-//               </span>
-//               <span className="text-xs text-sidebar-foreground/60 truncate">
-//                 john@example.com
-//               </span>
-//             </div>
-//           </div>
-//         </div>
+//       {/* Tooltip for collapsed state */}
+//       <div className="absolute left-full ml-2 px-2 py-1 bg-popover text-popover-foreground text-sm rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+//         {title}
 //       </div>
 //     </div>
 //   );

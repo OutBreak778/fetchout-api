@@ -132,7 +132,6 @@ export const methods = [
   },
 ];
 
-
 export const methodColors = {
   GET: "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700",
   POST: "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700",
@@ -151,3 +150,26 @@ export const methodIcons = {
   PATCH: Code,
 };
 
+export const steps = [
+  {
+    type: "command",
+    content: "curl -X POST https://fetchout-api.vercel.app/users",
+    delay: 50,
+  },
+  {
+    type: "command",
+    content: '-H "Content-Type: application/json"',
+    delay: 40,
+  },
+  {
+    type: "command",
+    content: '-d \'{"name": "John Doe", "email": "john@example.com"}\'',
+    delay: 30,
+  },
+  {
+    type: "response",
+    content:
+      '{\n  "id": "usr_1234567890",\n  "name": "John Doe",\n  "email": "john@example.com",\n  "created_at": "2024-01-15T10:30:00Z",\n  "status": "active"\n}',
+    delay: 20,
+  },
+];

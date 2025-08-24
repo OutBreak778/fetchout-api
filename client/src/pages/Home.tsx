@@ -1,83 +1,83 @@
 import { Badge } from "@/components/ui/badge";
-import { Copy, ArrowRight, Zap, Code, Globe, Loader2 } from "lucide-react";
+import { ArrowRight, Zap, Code, Globe, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { apiExample, apiResponse, features } from "@/config";
+import { features } from "@/config";
+import InteractiveTerminal from "@/components/InteractiveTerminal";
 
 const Home = () => {
   const { isAuthenticated, isLoading } = useAuthStore();
+
   if (isLoading) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
         <Loader2 className="h-12 w-12 text-white animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="no-scrollbar min-h-screen flex flex-col">
-      {" "}
+    <div className="no-scrollbar min-h-screen flex flex-col bg-white mt-16">
       {/* Hero Section */}
-      <section className="relative w-full flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-800 bg-[size:20px_20px] [mask-image:radial-gradient(white,transparent_70%)]" />
+      <section className="relative w-full flex items-center justify-center bg-white overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.01)_25%,rgba(0,0,0,0.01)_50%,transparent_50%,transparent_75%,rgba(0,0,0,0.01)_75%)] bg-[length:60px_60px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(-45deg,transparent_25%,rgba(0,0,0,0.01)_25%,rgba(0,0,0,0.01)_50%,transparent_50%,transparent_75%,rgba(0,0,0,0.01)_75%)] bg-[length:40px_40px]" />
+        </div>
 
-        <div className="relative w-full lg:px-32 ">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 mt-5">
+        <div className="relative w-full px-4 sm:px-6 lg:px-8 xl:px-32 py-12 sm:py-16 lg:py-20">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16 xl:gap-20">
             {/* Left Side - Text Content */}
-            <div className="flex-1 text-center lg:text-left max-w-full px-4">
-              {/* Trust Badge */}
-              <div className="flex items-center justify-center lg:justify-start gap-2 mb-6">
-                <Badge
-                  variant="secondary"
-                  className="bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
-                >
-                  <Zap className="w-3 h-3 mr-1" />
-                  Zero Infrastructure Setup
+            <div className="flex-1 text-center lg:text-left max-w-full">
+              <div className="flex items-center justify-center lg:justify-start gap-3 mb-8">
+                <Badge className="bg-black text-white hover:bg-gray-800 transition-all duration-200 px-4 py-2 text-sm font-medium">
+                  <Zap className="w-4 h-4 mr-2" />
+                  Zero Setup Required
                 </Badge>
                 <Badge
                   variant="outline"
-                  className="border-green-200 text-green-700 dark:border-green-800 dark:text-green-400"
+                  className="border-2 border-black text-black hover:bg-black hover:text-white transition-all duration-200 px-4 py-2 text-sm font-medium"
                 >
-                  <Globe className="w-3 h-3 mr-1" />
+                  <Globe className="w-4 h-4 mr-2" />
                   Global CDN
                 </Badge>
               </div>
 
-              {/* Main Heading */}
-              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight text-black mb-8">
                 Build. Test. Ship APIs —{" "}
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  in Minutes.
+                <span className="relative inline-block">
+                  <span className="relative leading-10 z-10 text-indigo-500 px-4 py-2">
+                    in Minutes.
+                  </span>
+                  <div className="absolute inset-0 bg-black transform rotate-1 -z-10" />
                 </span>
               </h1>
 
-              {/* Subheading */}
-              <p className="text-md sm:text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
+              <p className="text-lg sm:text-xl text-gray-700 mb-10 leading-relaxed max-w-2xl mx-auto">
                 APIs. No setup. No hassle. Fetchout lets you focus on logic
                 while{" "}
-                <span className="font-semibold text-slate-900 dark:text-white">
+                <span className="font-bold text-black relative">
                   we handle everything else.
+                  <span className="absolute bottom-0 left-0 w-full h-1 bg-black opacity-20" />
                 </span>
               </p>
 
-              {/* CTAs */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8 px-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
                 <Button
                   size="lg"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                  className="bg-black hover:bg-gray-800 text-white px-10 py-4 text-lg font-bold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-black"
                   asChild
                 >
                   {isAuthenticated ? (
-                    <Link to="/dashboard">
+                    <Link to="/dashboard" className="flex items-center">
                       Dashboard
-                      <ArrowRight className="ml-2 w-5 h-5" />
+                      <ArrowRight className="ml-3 w-5 h-5" />
                     </Link>
                   ) : (
-                    <Link to="/login">
+                    <Link to="/login" className="flex items-center">
                       Get Started
-                      <ArrowRight className="ml-2 w-5 h-5" />
+                      <ArrowRight className="ml-3 w-5 h-5" />
                     </Link>
                   )}
                 </Button>
@@ -85,171 +85,107 @@ const Home = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-2 border-slate-300 text-gray-900 hover:border-slate-400 px-8 py-3 text-lg font-semibold transition-all duration-200 bg-transparent flex items-center"
+                  className="border-2 border-black text-black hover:bg-black hover:text-white px-10 py-4 text-lg font-bold transition-all duration-300 transform hover:scale-105 bg-white"
                 >
-                  <Code className="w-8 h-8" />
+                  <Code className="w-5 h-5 mr-3" />
                   See Examples
                 </Button>
               </div>
-
-              {/* Trust Indicators */}
-              {/* <div className="flex items-center justify-center lg:justify-start gap-6 text-sm text-slate-500 dark:text-slate-400">
-              <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                99.9% Uptime
-              </div>
-              <div>500K+ API Calls</div>
-              <div>10K+ Developers</div>
-            </div> */}
             </div>
 
-            {/* Right Side - Live Code Example */}
-            <div className="flex-1 max-w-2xl w-full">
-              <div className="bg-slate-900 dark:bg-slate-800 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700">
-                {/* Terminal Header */}
-                <div className="flex items-center justify-between px-4 py-3 bg-slate-800 dark:bg-slate-700 border-b border-slate-700">
-                  <div className="flex items-center gap-2">
-                    <div className="flex gap-1.5">
-                      <div className="w-3 h-3 bg-red-500 rounded-full" />
-                      <div className="w-3 h-3 bg-yellow-500 rounded-full" />
-                      <div className="w-3 h-3 bg-green-500 rounded-full" />
-                    </div>
-                    <span className="text-slate-400 text-sm font-medium ml-2">
-                      Terminal
-                    </span>
-                  </div>
+            {/* Right Side - Interactive Terminal */}
+            <div className="w-full lg:flex-1 max-w-full lg:max-w-2xl xl:max-w-4xl">
+              <InteractiveTerminal />
 
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-slate-400 hover:text-white hover:bg-slate-700 transition-all duration-200"
-                  >
-                    <Copy className="w-4 h-4" />
-                  </Button>
-                </div>
-
-                {/* Code Content */}
-                <div className="p-4 space-y-4">
-                  {/* API Request */}
-                  <div>
-                    <div className="text-green-400 text-sm mb-2">$ Request</div>
-                    <pre className="text-slate-300 text-sm font-mono leading-relaxed overflow-x-auto">
-                      <code>{apiExample}</code>
-                    </pre>
-                  </div>
-
-                  {/* API Response */}
-                  <div>
-                    <div className="text-blue-400 text-sm mb-2">Response</div>
-                    <pre className="text-slate-300 text-sm font-mono leading-relaxed bg-slate-800 dark:bg-slate-900 p-3 rounded-lg overflow-x-auto">
-                      <code>{apiResponse}</code>
-                    </pre>
-                  </div>
-
-                  {/* Status Indicator */}
-                  <div className="flex items-center gap-2 pt-2">
-                    <div className="flex items-center gap-1 text-green-400 text-sm">
-                      <div className="w-2 h-2 bg-green-400 rounded-full" />
-                      200 OK
-                    </div>
-                    <div className="text-slate-500 text-sm">• 45ms</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Additional Info */}
-              <div className="mt-6 text-center">
-                <p className="text-sm text-slate-500 dark:text-slate-400">
-                  ✨ Real API endpoint • No setup required • Start building now
+              <div className="mt-4 sm:mt-6 lg:mt-8 text-center">
+                <p className="text-xs sm:text-sm text-gray-600 font-medium px-4">
+                  ✨{" "}
+                  <span className="font-bold text-black">
+                    Real API endpoint
+                  </span>{" "}
+                  • No setup required • Start building now
                 </p>
               </div>
             </div>
           </div>
         </div>
       </section>
-      {/* Feature Section */}
-      <section className="py-6 bg-slate-50 dark:bg-slate-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+
+      <section className="py-20 bg-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4">
-              Ship APIs like a{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                10x developer
+          <div className="text-center mb-20">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
+              Ship APIs like a
+              <span className="relative inline-block">
+                <span className="relative z-10 text-white bg-black px-4 py-2">
+                  10x developer
+                </span>
+                <div className="absolute inset-0 bg-white transform -rotate-1 -z-10" />
               </span>
             </h2>
-            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Stop wrestling with infrastructure. Start building features that
               matter.
             </p>
           </div>
 
           {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <div
                   key={index}
-                  className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${feature.bgGradient} p-8 transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/20 dark:border-slate-700/50`}
+                  className="group relative overflow-hidden rounded-2xl bg-white p-8 transition-all duration-500 hover:scale-105 hover:shadow-2xl border-2 border-gray-200 hover:border-black"
                 >
                   {/* Background Pattern */}
-                  <div className="absolute inset-0 bg-grid-slate-100/50 dark:bg-grid-slate-800/50 bg-[size:20px_20px] opacity-30" />
-
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-white/40 dark:from-slate-800/80 dark:to-slate-800/40 backdrop-blur-sm" />
+                  <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.02)_25%,rgba(0,0,0,0.02)_50%,transparent_50%,transparent_75%,rgba(0,0,0,0.02)_75%)] bg-[length:20px_20px] opacity-50" />
 
                   {/* Content */}
                   <div className="relative z-10">
                     {/* Icon */}
                     <div className="mb-6">
-                      <div
-                        className={`inline-flex w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.gradient} p-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}
-                      >
+                      <div className="inline-flex w-16 h-16 rounded-2xl bg-black p-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
                         <Icon className="w-8 h-8 text-white" />
                       </div>
-                      {/* Icon Glow */}
-                      <div
-                        className={`absolute w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-20 blur-xl group-hover:opacity-40 transition-all duration-300 -mt-16`}
-                      />
                     </div>
 
                     {/* Text Content */}
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-slate-800 dark:group-hover:text-slate-100 transition-colors">
+                      <h3 className="text-xl font-bold text-black mb-4 group-hover:text-gray-800 transition-colors">
                         {feature.title}
                       </h3>
-                      <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors">
+                      <p className="text-gray-700 leading-relaxed group-hover:text-gray-900 transition-colors">
                         {feature.description}
                       </p>
                     </div>
                   </div>
 
-                  {/* Hover Border Glow */}
-                  <div
-                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none`}
-                  />
+                  {/* Hover Effect */}
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-300 pointer-events-none rounded-2xl" />
                 </div>
               );
             })}
           </div>
         </div>
       </section>
-      {/* Footer Section */}
-      <footer className="h-20 flex items-center justify-center bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full text-sm text-slate-600 dark:text-slate-400">
-          <p>
+
+      <footer className="bg-white border-t-2 border-black py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full">
+          <p className="text-black font-medium">
             &copy; {new Date().getFullYear()} Fetchout. All rights reserved.
           </p>
-          <div className="flex gap-4">
-            <div className="hover:text-slate-900 flex text-lg dark:hover:text-white transition-colors">
-              🧡 By <p className="font-bold ml-2">OUTBREAK</p>
-            </div>
+          <div className="flex items-center gap-2 text-black font-bold">
+            <span className="text-2xl">❤️</span>
+            <span>By</span>
+            <span className="bg-black text-white px-3 py-1 rounded font-black">
+              OUTBREAK
+            </span>
           </div>
         </div>
       </footer>
     </div>
   );
 };
-
 export default Home;

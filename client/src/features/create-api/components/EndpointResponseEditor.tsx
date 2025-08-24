@@ -44,7 +44,7 @@ const EndpointResponseEditor = ({
 }: EndpointResponseEditorProps) => {
   const [mode, setMode] = useState<"form" | "raw">("form");
   const [rawJSON, setRawJSON] = useState("");
-  console.log(rawJSON)
+  console.log(rawJSON);
   const [expandedObjects, setExpandedObjects] = useState(new Set());
 
   const addStructure = (type: "array" | "object" = "object") => {
@@ -157,7 +157,7 @@ const EndpointResponseEditor = ({
   };
 
   return (
-    <Card className="w-full max-w-7xl mx-auto shadow-lg border border-gray-100 bg-white rounded-lg">
+    <Card className="w-full max-w-7xl mx-auto shadow-lg border-2 border-gray-200 bg-white rounded-lg">
       <CardHeader className="pb-4 px-4 sm:px-6">
         <CardTitle className="text-xl sm:text-2xl">Response Example</CardTitle>
         <CardDescription className="text-sm sm:text-base">
@@ -188,8 +188,6 @@ const EndpointResponseEditor = ({
               <span className="xs:hidden">JSON</span>
             </TabsTrigger>
           </TabsList>
-
-          
 
           <TabsContent value="form" className="rounded-lg">
             {response.length === 0 ? (

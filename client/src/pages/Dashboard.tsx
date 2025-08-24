@@ -8,8 +8,8 @@ const Dashboard = () => {
         title="Dashboard"
         description="Review all your Endpoint and other info from here."
         icon={Home}
-        bgColor="bg-purple-100"
-        iconColor="text-purple-600"
+        bgColor="bg-gray-100"
+        iconColor="text-gray-800"
       />
         </div>
   );

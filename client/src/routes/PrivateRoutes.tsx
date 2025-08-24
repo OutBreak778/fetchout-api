@@ -6,7 +6,7 @@ const PrivateRoutes = () => {
   const { isLoading, isAuthenticated } = useAuthStore();
   if (isLoading) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 backdrop-blur-sm">
         <Loader2 className="h-12 w-12 text-white animate-spin" />
       </div>
     );

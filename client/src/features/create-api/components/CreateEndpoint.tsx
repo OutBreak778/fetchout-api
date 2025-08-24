@@ -1,15 +1,17 @@
 import HeaderData from "@/components/HeaderData";
 import { Separator } from "@/components/ui/separator";
-import { AppWindow } from "lucide-react";
+import { AppWindow, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import { useState, type ChangeEvent } from "react";
+import { useState } from "react";
 import type { CreateEndpointData, responseStructure } from "@/types";
 import EndpointBasicInfo from "./EndpointBasicInfo";
 import EndpointConfigure from "./EndpointConfigure";
 import EndpointResponseEditor from "./EndpointResponseEditor";
 import EndpointParameter from "./EndpointParameter";
+import { toast } from "sonner";
+import { useEndpointStore } from "@/stores/useEndpointStore";
 
 type FormParams = {
   name: string;
@@ -19,6 +21,8 @@ const CreateEndpoint = () => {
   const [paramName, setParamName] = useState<FormParams>({
     name: "",
   });
+
+  const { createEndpoint, isLoading } = useEndpointStore();
 
   const [endpointData, setEndpointData] = useState<CreateEndpointData>({
     name: "",
@@ -35,7 +39,7 @@ const CreateEndpoint = () => {
   } as CreateEndpointData);
 
   const onChangeValue = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
 
@@ -70,43 +74,73 @@ const CreateEndpoint = () => {
     }
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(endpointData);
+
+    if (!endpointData.name.trim()) {
+      toast.error("Endpoint name is required.");
+      return;
+    }
+    if (!endpointData.methods) {
+      toast.error("HTTP method is required.");
+      return;
+    }
+
+    try {
+      const formattedData = {
+        ...endpointData,
+        rateLimit: {
+          limit: Number(endpointData.rateLimit.limit) || 0,
+          period: Number(endpointData.rateLimit.period) || 0,
+        },
+      };
+      await createEndpoint(formattedData);
+
+      setEndpointData({
+        name: "",
+        description: "",
+        methods: "GET",
+        params: [],
+        response: [],
+        hits: 0,
+        rateLimit: {
+          limit: 0,
+          period: 0,
+        },
+        isPublic: false,
+      });
+
+      toast.success("Endpoint created successfully 🚀");
+      setParamName({ name: "" });
+    } catch (error) {
+      console.log(`${error}`);
+      toast.error("Endpoint creation failed.");
+    }
   };
 
   return (
-    <div className="max-h-screen text-gray-800">
+    <div className="min-h-0 text-gray-800">
       {/* Header */}
       <HeaderData
         title="Create New API"
         description="Define your API details, parameters, methods, and example responses. Your API will be generated instantly."
         icon={AppWindow}
-        iconColor="text-blue-600"
-        bgColor="bg-blue-100"
+        iconColor="text-gray-800"
+        bgColor="bg-gray-100"
       />
       <Separator />
-      <div className="max-w-4xl mx-auto py-12">
-        <form
-          className="flex flex-col space-y-4 bg-white"
-          onSubmit={handleSubmit}
-        >
-          {/* Basic Information */}
-
+      <div className="max-w-4xl mx-auto py-8 px-4">
+        <div className="flex flex-col space-y-4 bg-white">
           <EndpointBasicInfo
             endpointData={endpointData}
             onChangeValue={onChangeValue}
           />
-          {/* API Parameters */}
-
           <EndpointParameter
             endpointData={endpointData}
             paramName={paramName}
             setParamsName={setParamName}
             setEndpointData={setEndpointData}
           />
-
-          {/* Response Examples */}
           <EndpointResponseEditor
             response={endpointData.response as responseStructure[]}
             setResponse={(update: responseStructure[]) =>
@@ -116,32 +150,34 @@ const CreateEndpoint = () => {
               }))
             }
           />
-
-          {/* Configuration */}
           <EndpointConfigure
             endpointData={endpointData}
             onChangeValue={onChangeValue}
             setEndpointData={setEndpointData}
           />
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-end pt-6">
-            <Button
-              variant="outline"
-              size="lg"
-              className="h-12 px-8 text-base border-gray-200 hover:bg-gray-50 bg-transparent cursor-pointer"
-            >
-              Save as Draft
-            </Button>
-            <Button
-              size="lg"
-              type="submit"
-              className="h-12 px-8 text-base bg-blue-600 hover:bg-blue-700 shadow-lg cursor-pointer"
-            >
-              Create API
-            </Button>
-          </div>
-        </form>
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col items-end sm:flex-row gap-4 justify-end pt-4 pb-2"
+          >
+            <div className="flex space-x-3 justify-end">
+              <Button
+                size="lg"
+                type="submit"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSubmit(e);
+                  }
+                }}
+                onSubmit={handleSubmit}
+                disabled={isLoading}
+                className="h-12 px-8 text-base disabled:cursor-not-allowed cursor-pointer bg-gray-800 hover:bg-gray-700 shadow-lg"
+              >
+                {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+                Create API
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

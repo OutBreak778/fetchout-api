@@ -41,7 +41,7 @@ const EndpointConfigure = ({
   
   const limit = useDebounceValue(limitFn, 40)
   return (
-    <Card className="border-0 shadow-lg">
+    <Card className="border-2 border-gray-200 shadow-lg">
       <CardHeader className="pb-6">
         <CardTitle className="text-2xl">Configuration</CardTitle>
         <CardDescription className="text-base">
@@ -62,7 +62,7 @@ const EndpointConfigure = ({
             <SelectTrigger className="h-12 text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500">
               <SelectValue placeholder="Choose a method" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent position="popper" className="z-50" portal={false}>
               {methods.map((method) => (
                 <SelectItem
                   key={method.value}

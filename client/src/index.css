@@ -4,18 +4,19 @@
 @custom-variant dark (&:is(.dark *));
 
 html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+  height: auto; 
 }
 body {
-  margin: 0;
-  padding: 0;
-  height: auto;    
   min-height: 100%;  
-  width: 100%;
-  overflow-x: hidden;   
+  background: white;
 }
+
+form {
+  display: block;
+  margin-top: 0em;
+  unicode-bidi: isolate;
+}
+
 
 @keyframes pulse-glow {
   0%,

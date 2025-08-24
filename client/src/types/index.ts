@@ -27,7 +27,7 @@ export type AuthStore = {
   fetchUser: () => Promise<void>;
 };
 
-export type userButtonProps =  {
+export type userButtonProps = {
   user: {
     avatar?: string | "";
     createdAt?: string | Date;
@@ -35,25 +35,24 @@ export type userButtonProps =  {
     email: string;
     isVerified?: boolean | string;
   };
-}
+};
 
 export interface ResponseField {
-  id: string
-  key: string
-  value: string
-  type: "string" | "number" | "boolean" | "array" | "object"
+  id: string;
+  key: string;
+  value: string;
+  type: "string" | "number" | "boolean" | "array" | "object";
 }
 
 export type responseStructure = {
-  id: string
-  type: "object" | "array",
-  fields: ResponseField[],
-}
-
+  id: string;
+  type: "object" | "array";
+  fields: ResponseField[];
+};
 
 type ParmasData = {
   name: string;
-}
+};
 
 export type ResponseData = Record<string, string | number | string[]>;
 
@@ -63,7 +62,7 @@ export type CreateEndpointData = {
   methods: "GET" | "POST" | "PUT" | "DELETE";
   params: ParmasData[];
   response: responseStructure[];
-  hits: number;
+  hits?: number;
   rateLimit: {
     limit: number;
     period: number;
@@ -71,7 +70,7 @@ export type CreateEndpointData = {
   isPublic: boolean;
 };
 
-type methodType = "GET" | "POST" | "PUT" | "DELETE"
+type methodType = "GET" | "POST" | "PUT" | "DELETE";
 
 export type EndpointData = {
   _id: string;
@@ -84,7 +83,7 @@ export type EndpointData = {
   response: Record<string, any> | Record<string, any>[];
   urlPath: string;
   apiKey: string;
-    rateLimit: {
+  rateLimit: {
     limit: number;
     period: number;
   };
@@ -95,8 +94,29 @@ export type EndpointData = {
 };
 
 export type EndpointStore = {
-  data: EndpointData[],
-  isLoading: boolean
+  data: EndpointData[];
+  isLoading: boolean;
+  error: string | null;
+  createEndpoint: (item: CreateEndpointData) => Promise<void>;
+  fetchEndpoint: () => Promise<void>;
+};
+
+type usagelogData = {
+  _id: string;
+  userId: User;
+  endpointId: EndpointData;
+  ipAddress: string;
+  statusCode: number;
+  responseTime: number;
+  urlPath?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type UsagelogStore = {
+  usage: usagelogData[]
+  isLoading: boolean;
   error: string | null
-  fetchEndpoint: () => Promise<void>
-}
+
+  fetchLogs: () => Promise<void>
+};

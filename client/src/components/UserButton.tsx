@@ -17,29 +17,28 @@ import { useNavigate } from "react-router-dom";
 import { formatJoinDate } from "@/lib/formatDate";
 import { GetInitial } from "@/lib/getInitials";
 import { userButtonRoutes } from "@/config";
-import userButtonIcon from "/user4.png"
+import userButtonIcon from "/user5.png";
 
 const UserButton = ({ user }: userButtonProps) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
-  const { logout } = useAuthStore()
-  const navigate = useNavigate()
+  const { logout } = useAuthStore();
+  const navigate = useNavigate();
 
   if (!user || !user.userName) {
-    return null
+    return null;
   }
 
   const handleNavigation = (href: string) => {
-    navigate(href)
-    setIsOpen(false)
-  }
+    navigate(href);
+    setIsOpen(false);
+  };
 
   const handleLogout = async () => {
-    await logout()
-    navigate("/")
-    setIsOpen(false)
-  }
-
+    await logout();
+    navigate("/");
+    setIsOpen(false);
+  };
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -49,7 +48,13 @@ const UserButton = ({ user }: userButtonProps) => {
           className="relative h-10 w-10 rounded-full ring-offset-background transition-all hover:ring-2 hover:ring-ring hover:ring-offset-2"
         >
           <Avatar className="h-10 w-10 border-2 border-gray-300">
-            <AvatarImage src={user.avatar || userButtonIcon} alt={user.userName} className="p-2" />
+            <div className="w-3 h-3 z-50 bg-green-500 rounded-full animate-pulse" />
+
+            <AvatarImage
+              src={user.avatar || userButtonIcon}
+              alt={user.userName}
+              className="p-1"
+            />
             <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500 text-white font-semibold">
               {GetInitial(user.userName)}
             </AvatarFallback>
@@ -57,21 +62,35 @@ const UserButton = ({ user }: userButtonProps) => {
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-72 border border-gray-200" align="end" sideOffset={5}>
+      <DropdownMenuContent
+        className="w-72 border border-gray-200"
+        align="end"
+        sideOffset={5}
+      >
         <DropdownMenuLabel className="p-0">
           <div className="flex items-center gap-3 p-4">
             <Avatar className="h-12 w-12">
-              <AvatarImage src={user.avatar || userButtonIcon} alt={user.userName} className="p-2"/>
+              <AvatarImage
+                src={user.avatar || userButtonIcon}
+                alt={user.userName}
+                className="p-2"
+              />
               <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500 text-white font-semibold text-lg">
                 {GetInitial(user.userName)}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 space-y-1">
               <div className="flex items-center gap-2">
-                <p className="font-semibold text-sm leading-none">{user.userName}</p>
-                {user.isVerified && <ShieldCheck className="h-4 w-4 text-emerald-500" />}
+                <p className="font-semibold text-sm leading-none">
+                  {user.userName}
+                </p>
+                {user.isVerified && (
+                  <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                )}
               </div>
-              <p className="text-xs text-muted-foreground leading-none">{user.email}</p>
+              <p className="text-xs text-muted-foreground leading-none">
+                {user.email}
+              </p>
             </div>
           </div>
         </DropdownMenuLabel>
@@ -114,7 +133,9 @@ const UserButton = ({ user }: userButtonProps) => {
           {user.createdAt && (
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Member since {formatJoinDate(`${user.createdAt}`)}</span>
+              <span className="text-sm text-muted-foreground">
+                Member since {formatJoinDate(`${user.createdAt}`)}
+              </span>
             </div>
           )}
         </div>
@@ -132,7 +153,7 @@ const UserButton = ({ user }: userButtonProps) => {
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
+  );
+};
 
 export default UserButton;

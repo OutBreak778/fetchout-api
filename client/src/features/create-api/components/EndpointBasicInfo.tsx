@@ -18,7 +18,7 @@ interface EndpointBasicInfoProps {
 
 const EndpointBasicInfo = ({endpointData, onChangeValue}: EndpointBasicInfoProps) => {
   return (
-    <Card className="border-0">
+    <Card className="border2-2 border-gray-200">
       <CardHeader className="pb-6">
         <CardTitle className="text-2xl">Basic Information</CardTitle>
         <CardDescription className="text-base">

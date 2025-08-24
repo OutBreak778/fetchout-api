@@ -24,6 +24,7 @@ const EndpointParameter = ({
   endpointData,
   setEndpointData,
 }: EndpointParameterProps) => {
+  
   const handleSubmit = () => {
     if (paramName.name.trim()) {
       setEndpointData((prev) => ({
@@ -49,7 +50,7 @@ const EndpointParameter = ({
   };
 
   return (
-    <Card className="border-0 shadow-lg">
+    <Card className="border-2 border-gray-200 shadow-lg">
       <CardHeader className="pb-6">
         <div className="flex items-center gap-3">
           <div>
@@ -88,7 +89,7 @@ const EndpointParameter = ({
               onClick={handleSubmit}
               disabled={!paramName.name.trim()}
               type="button"
-              className="bg-indigo-600 hover:bg-indigo-700 shadow-sm cursor-pointer"
+              className="bg-gray-700 hover:bg-gray-900 shadow-sm cursor-pointer"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Parameter
