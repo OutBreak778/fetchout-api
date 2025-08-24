@@ -21,6 +21,7 @@ import {
   MoreVertical,
   Play,
   Plus,
+  Trash2,
 } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -64,13 +65,13 @@ const Profile = () => {
 
   if (!user) return null;
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex items-center text-gray-600 justify-center w-full h-[70vh]">
-  //       <Loader2 className="w-10 h-10 animate-spin" />
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div className="flex items-center text-gray-600 justify-center w-full h-[70vh]">
+        <Loader2 className="w-10 h-10 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
@@ -251,6 +252,10 @@ const Profile = () => {
                           <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
                             <Play className="h-4 w-4 mr-1" />
                             Test
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
+                            <Trash2 className="h-4 w-4 mr-1" />
+                            Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
