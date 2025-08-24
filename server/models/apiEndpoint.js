@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import UsageModel from "./usageLog.js";
 const Schema = mongoose.Schema;
 
 const apiEndpointSchema = new Schema(
@@ -39,7 +40,7 @@ const apiEndpointSchema = new Schema(
     urlPath: {
       type: String,
       required: false,
-      unique: true
+      unique: true,
     },
     apiKey: {
       type: String,
@@ -58,7 +59,7 @@ const apiEndpointSchema = new Schema(
       period: {
         type: Number,
         default: 60 * 1000,
-      }
+      },
     },
     isPublic: {
       type: Boolean,
@@ -66,6 +67,23 @@ const apiEndpointSchema = new Schema(
     },
   },
   { timestamps: true }
+);
+
+apiEndpointSchema.pre("remove", async function (next) {
+  await UsageModel.deleteMany({ endpointId: this._id });
+  next();
+});
+
+apiEndpointSchema.pre(
+  "deleteOne",
+  { document: false, query: true },
+  async function (next) {
+    const query = this.getQuery();
+    if (query._id) {
+      await UsageModel.deleteMany({ endpointId: query._id });
+    }
+    next();
+  }
 );
 
 const ApiEndpoint = mongoose.model("apiEndpoint", apiEndpointSchema);
