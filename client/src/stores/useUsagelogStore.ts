@@ -14,7 +14,7 @@ export const useUsagelogStore = create<UsagelogStore>((set) => ({
       const response = await api.get(`${URL}/api/usage-log`, {
         withCredentials: true,
       });
-      set({ isLoading: false, error: null, usage: response.data.usage });
+      set({ isLoading: false, error: null, usage: response.data.usage || []});
     } catch (error) {
       console.log(`error in usageLogStore: ${error}`);
       set({

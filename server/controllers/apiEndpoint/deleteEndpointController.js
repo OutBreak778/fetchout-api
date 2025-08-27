@@ -16,8 +16,6 @@ export async function deleteEndpointController(req, res) {
       });
     }
     
-    // await ApiEndpoint.deleteOne({slug, userId})
-    // await UsageModel.deleteMany({endpointId: endpoint._id, userId})
     await endpoint.deleteOne();
 
     return res.status(200).json({

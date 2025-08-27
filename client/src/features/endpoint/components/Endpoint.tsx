@@ -24,8 +24,10 @@ const Endpoint = () => {
 
   const hasFetched = useRef(false);
 
-  const { data, isLoading, fetchEndpoint } = useEndpointStore();
+  const { data = [], isLoading, fetchEndpoint } = useEndpointStore();
   const filteredEndpoint = useMemo(() => {
+    if (!Array.isArray(data)) return [];
+
     const filtered = data.filter((item) => {
       const matchSearch =
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -58,8 +60,16 @@ const Endpoint = () => {
     hasFetched.current = true;
   }, [fetchEndpoint]);
 
+  if(isLoading) {
+    return (
+      <div className="flex items-center justify-center w-full min-h-[70vh]">
+        <Loader2 className="w-5 h-5 animate-spin text-black" />
+      </div>
+    )
+  }
+
   return (
-    <div className="text-gray-800">
+    <div className="text-gray-800 relative max-w-7xl mx-auto">
       <div className="flex justify-between flex-col md:flex-row">
         <HeaderData
           title="View All Endpoints"
@@ -88,50 +98,50 @@ const Endpoint = () => {
 
         <div className="flex flex-col md:flex-row w-full items-center gap-x-3 space-y-2">
           <div className="flex flex-row w-full md:w-auto space-x-4">
-          <Select value={methodFilter} onValueChange={setMethodFilter}>
-            <SelectTrigger
-              className="w-full md:w-fit cursor-pointer"
-              aria-label="Select your method"
-              name="Select your method"
-            >
-              <SelectValue placeholder="Select your method" />
-            </SelectTrigger>
-            <SelectContent className="w-full">
-              <SelectItem className="cursor-pointer" value="all">
-                All
-              </SelectItem>
-              <SelectItem className="cursor-pointer" value="GET">
-                GET
-              </SelectItem>
-              <SelectItem className="cursor-pointer" value="POST">
-                POST
-              </SelectItem>
-              <SelectItem className="cursor-pointer" value="DELETE">
-                DELETE
-              </SelectItem>
-            </SelectContent>
-          </Select>
+            <Select value={methodFilter} onValueChange={setMethodFilter}>
+              <SelectTrigger
+                className="w-full md:w-fit cursor-pointer"
+                aria-label="Select your method"
+                name="Select your method"
+              >
+                <SelectValue placeholder="Select your method" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                <SelectItem className="cursor-pointer" value="all">
+                  All
+                </SelectItem>
+                <SelectItem className="cursor-pointer" value="GET">
+                  GET
+                </SelectItem>
+                <SelectItem className="cursor-pointer" value="POST">
+                  POST
+                </SelectItem>
+                <SelectItem className="cursor-pointer" value="DELETE">
+                  DELETE
+                </SelectItem>
+              </SelectContent>
+            </Select>
 
-          <Select value={visibleFilter} onValueChange={setVisibleFilter}>
-            <SelectTrigger
-              className="w-full md:w-fit cursor-pointer"
-              aria-label="Select your public or private ?"
-              name="Select your public or private ?"
-            >
-              <SelectValue placeholder="Select your visible endpoint" />
-            </SelectTrigger>
-            <SelectContent className="w-full">
-              <SelectItem className="cursor-pointer" value="all">
-                All
-              </SelectItem>
-              <SelectItem className="cursor-pointer" value="private">
-                Private
-              </SelectItem>
-              <SelectItem className="cursor-pointer" value="public">
-                Public
-              </SelectItem>
-            </SelectContent>
-          </Select>
+            <Select value={visibleFilter} onValueChange={setVisibleFilter}>
+              <SelectTrigger
+                className="w-full md:w-fit cursor-pointer"
+                aria-label="Select your public or private ?"
+                name="Select your public or private ?"
+              >
+                <SelectValue placeholder="Select your visible endpoint" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                <SelectItem className="cursor-pointer" value="all">
+                  All
+                </SelectItem>
+                <SelectItem className="cursor-pointer" value="private">
+                  Private
+                </SelectItem>
+                <SelectItem className="cursor-pointer" value="public">
+                  Public
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="flex flex-row w-full gap-4 ml-2 md:ml-0 mt-2 md:mt-0">
@@ -171,13 +181,9 @@ const Endpoint = () => {
         </div>
       </div>
       <div className="gap-4 mt-6 max-w-7xl mx-auto">
-        {isLoading && data ? (
-          <div className="flex items-center text-gray-600 justify-center w-full min-h-[90vh]">
-            <Loader2 className="w-10 h-10 animate-spin" />
-          </div>
-        ) : (
+ 
           <EndpointCards filteredEndpoints={filteredEndpoint} />
-        )}
+ 
       </div>
       {filteredEndpoint.length === 0 && (
         <div className="text-center py-12">

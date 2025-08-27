@@ -53,4 +53,23 @@ export const useEndpointStore = create<EndpointStore>((set) => ({
       });
     }
   },
+  deleteEndpoint: async (slug: string) => {
+    set({isLoading: true})
+    try {
+      const response = await api.delete(`${import.meta.env.VITE_SERVER_URL}/api/endpoint/delete-api/${slug}`)
+      set({
+        data: response.data,
+        isLoading: false,
+        error: null,
+      });
+      window.location.reload()
+    } catch (error) {
+      console.log(`Error in EndpointStore: ${error}`);
+      set({
+        data: [],
+        isLoading: false,
+        error: "Error occurred in useEndpointStore",
+      });
+    }
+  },
 }));

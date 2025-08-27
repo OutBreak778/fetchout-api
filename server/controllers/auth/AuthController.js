@@ -46,9 +46,9 @@ export async function loginAuthController(req, res) {
       expiresIn: "3d",
     });
     res.cookie("token", authToken, {
-      httpOnly: true,
-      secure: true, 
-      sameSite: "none",
+      // httpOnly: true,
+      // secure: true, 
+      // sameSite: "none",
       maxAge: 3 * 24 * 60 * 60 * 1000,
     });
 
@@ -148,7 +148,7 @@ export async function registerAuthController(req, res) {
     );
     await Token.create({ userId: user._id, token: emailToken });
 
-    console.log("Token:", emailToken);
+    // console.log("Token:", emailToken);
     await SendEmail(email, emailToken);
 
     return res.status(201).json({

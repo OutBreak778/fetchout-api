@@ -58,14 +58,14 @@ const EndpointCards = ({ filteredEndpoints }: EndpointCardProps) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 p-1">
-      {filteredEndpoints.map((endpoint) => {
+      {filteredEndpoints.map((endpoint, index) => {
         const isHighTraffic = endpoint.hits > 1000
         const MethodIcon = methodIcons[endpoint.methods] || Code
         const isNew = formatDate(endpoint.createdAt).includes("day")
         const cleanedPath = cleanPath(endpoint.urlPath || "")
 
         return (
-          <div key={endpoint._id}
+          <div key={index}
             className={`premium-card group bg-card border-2 rounded-xl p-6 transition-all duration-300 ${
               isNew ? "border-primary/20 shadow-lg" : "border-border/60"
             }`}

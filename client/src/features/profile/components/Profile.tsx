@@ -23,13 +23,13 @@ import {
   Plus,
   Trash2,
 } from "lucide-react";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 const Profile = () => {
   const { user } = useAuthStore();
-  const { data, isLoading, fetchEndpoint } = useEndpointStore();
+  const { data, isLoading, fetchEndpoint, deleteEndpoint } = useEndpointStore();
   const getMethodColor = (method: string) => {
     switch (method) {
       case "GET":
@@ -45,16 +45,21 @@ const Profile = () => {
     }
   };
 
-  const profileData = useMemo(() => {
-    const filtered = [...data];
-    const totalEndpoint = filtered.length
-    const activeUserEnpoint = new Set(filtered.filter((item) => item.name)).size
-    return { filtered, totalEndpoint, activeUserEnpoint };
-  }, [data]);
-
   useEffect(() => {
     fetchEndpoint();
   }, [fetchEndpoint]);
+
+  if (!data) {
+    return (
+      <div className="flex items-center text-gray-600 justify-center w-full h-[70vh]">
+        <Loader2 className="w-10 h-10 animate-spin" />
+      </div>
+    );
+  }
+
+  const filtered = Array.isArray(data) ? [...data] : [];
+  const totalEndpoint = filtered.length;
+  const activeUserEnpoint = new Set(filtered.filter((item) => item.name)).size;
 
   const copyClipboard = async (url: string) => {
     await window.navigator.clipboard.writeText(url);
@@ -83,13 +88,13 @@ const Profile = () => {
           <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
             {/* Avatar Section */}
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+              <div className="absolute -inset-1 bg-indigo-500 rounded-full blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
               <Avatar className="relative h-32 w-32 border-4 border-white shadow-xl">
                 <AvatarImage
                   src={user.avatar || "/placeholder.svg"}
                   alt={user.userName}
                 />
-                <AvatarFallback className="text-3xl font-semibold bg-gradient-to-br from-blue-500 to-purple-500 text-white">
+                <AvatarFallback className="text-3xl font-semibold bg-indigo-500 text-white">
                   {user.userName
                     .split(" ")
                     .map((n) => n[0])
@@ -109,16 +114,16 @@ const Profile = () => {
               {/* Stats */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-6">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-violet-600">{profileData.totalEndpoint}</div>
+                  <div className="text-2xl font-bold text-indigo-600">
+                    {totalEndpoint}
+                  </div>
                   <div className="text-sm text-gray-500">Total Endpoints</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">{profileData.activeUserEnpoint ?? 0}</div>
+                  <div className="text-2xl font-bold text-green-600">
+                    {activeUserEnpoint ?? 0}
+                  </div>
                   <div className="text-sm text-gray-500">Active</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">2.1k</div>
-                  <div className="text-sm text-gray-500">Total Requests</div>
                 </div>
               </div>
             </div>
@@ -127,7 +132,7 @@ const Profile = () => {
             <Link to="/edit-profile" className="flex gap-3">
               <Button
                 size="lg"
-                className="bg-gradient-to-r cursor-pointer from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 shadow-lg"
+                className="bg-indigo-500 cursor-pointer shadow-lg"
               >
                 <Edit3 className="h-4 w-4 mr-2" />
                 Edit Profile
@@ -138,7 +143,7 @@ const Profile = () => {
       </div>
       <Separator className="mt-5" />
       {/* Endpoints Section */}
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
@@ -150,127 +155,138 @@ const Profile = () => {
           </div>
         </div>
 
-        {profileData.filtered.length > 0 ? (
+        {filtered.length > 0 ? (
           <div className="grid gap-6">
-            {profileData.filtered.map((endpoint, index) => (
-              <div
-                key={endpoint._id}
-                className="group relative bg-white rounded-2xl border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {/* <div className="absolute inset-0 bg-gradient-to-r from-violet-600/5 to-pink-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div> */}
+            {data &&
+              filtered.map((endpoint, index) => (
+                <div
+                  key={endpoint._id}
+                  className="group relative bg-white rounded-2xl border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  {/* <div className="absolute inset-0 bg-gradient-to-r from-violet-600/5 to-pink-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div> */}
 
-                <div className="relative p-6">
-                  <div className="flex flex-row lg:items-center justify-between gap-4">
-                    {/* Endpoint Info */}
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="p-2 bg-gradient-to-br from-violet-100 to-purple-100 rounded-lg">
-                          <Globe className="h-5 w-5 text-violet-600" />
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-semibold text-gray-900">
-                            {endpoint.name}
-                          </h3>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Badge
-                              variant="outline"
-                              className={`${getMethodColor(
-                                endpoint.methods
-                              )} font-medium`}
-                            >
-                              {endpoint.methods}
-                            </Badge>
-                            <Badge
-                              variant={
-                                endpoint.isPublic ? "default" : "secondary"
-                              }
-                              className={
-                                endpoint.isPublic
-                                  ? "bg-green-50 text-green-700 border-none"
-                                  : "bg-red-50 text-red-700 border-none"
-                              }
-                            >
-                              {endpoint.isPublic ? (
-                                <Badge
-                                  variant="outline"
-                                  className="text-xs bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-700"
-                                >
-                                  <Globe className="w-3 h-3 mr-1" />
-                                  Public
-                                </Badge>
-                              ) : (
-                                <Badge
-                                  variant="outline"
-                                  className="text-xs bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-700"
-                                >
-                                  <Lock className="w-3 h-3 mr-1" />
-                                  Private
-                                </Badge>
-                              )}
-                            </Badge>
+                  <div className="relative p-6">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                      {/* Endpoint Info */}
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="p-2 bg-gradient-to-br from-violet-100 to-purple-100 rounded-lg">
+                            <Globe className="h-5 w-5 text-violet-600" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-semibold text-gray-900">
+                              {endpoint.name}
+                            </h3>
+                            <div className="flex items-center gap-2 mt-1">
+                              <Badge
+                                variant="outline"
+                                className={`${getMethodColor(
+                                  endpoint.methods
+                                )} font-medium`}
+                              >
+                                {endpoint.methods}
+                              </Badge>
+                              <Badge
+                                variant={
+                                  endpoint.isPublic ? "default" : "secondary"
+                                }
+                                className={
+                                  endpoint.isPublic
+                                    ? "bg-green-50 text-green-700 border-none"
+                                    : "bg-red-50 text-red-700 border-none"
+                                }
+                              >
+                                {endpoint.isPublic ? (
+                                  <Badge
+                                    variant="outline"
+                                    className="text-xs bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-700"
+                                  >
+                                    <Globe className="w-3 h-3 mr-1" />
+                                    Public
+                                  </Badge>
+                                ) : (
+                                  <Badge
+                                    variant="outline"
+                                    className="text-xs bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-700"
+                                  >
+                                    <Lock className="w-3 h-3 mr-1" />
+                                    Private
+                                  </Badge>
+                                )}
+                              </Badge>
+                            </div>
                           </div>
                         </div>
+
+                        <div className="bg-gray-100 w-full rounded-lg px-3 py-2 mb-4">
+                          <code className="text-sm text-gray-700 font-mono">
+                            {endpoint.urlPath}
+                          </code>
+                        </div>
+
+                        <div className="flex items-center gap-6 text-sm text-gray-500">
+                          <span>
+                            Last used: {formatDate(endpoint.createdAt)}
+                          </span>
+                          <span>
+                            Requests limit: {endpoint.rateLimit.limit}
+                          </span>
+                        </div>
                       </div>
 
-                      <div className="bg-gray-100 w-fit rounded-lg px-3 py-2 mb-4">
-                        <code className="text-sm text-gray-700 font-mono">
-                          {endpoint.urlPath}
-                        </code>
-                      </div>
-
-                      <div className="flex items-center gap-6 text-sm text-gray-500">
-                        <span>Last used: {formatDate(endpoint.createdAt)}</span>
-                        <span>Requests limit: {endpoint.rateLimit.limit}</span>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex items-center gap-2">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-black cursor-pointer border border-gray-200 rounded-sm mt-5"
+                      {/* Action Buttons */}
+                      <div className="flex w-full lg:w-auto items-center gap-2">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="text-black cursor-pointer border border-gray-200 rounded-sm mt-5"
+                            >
+                              <MoreHorizontal className="h-4 w-4 mr-1" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent
+                            align="end"
+                            className="w-40 space-y-1 border-2 border-gray-200"
                           >
-                            <MoreHorizontal className="h-4 w-4 mr-1" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-40 space-y-1 border-2 border-gray-200">
-                          <DropdownMenuItem
-                            onClick={() => copyClipboard(endpoint.urlPath)}
-                            className="cursor-pointer hover:bg-gray-200"
-                          >
-                            <Copy className="h-4 w-4 mr-1" />
-                            Copy
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
-                            <MoreVertical className="h-4 w-4 mr-1" />
-                            Open
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
-                            <Play className="h-4 w-4 mr-1" />
-                            Test
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
-                            <Trash2 className="h-4 w-4 mr-1" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                            <DropdownMenuItem
+                              onClick={() => copyClipboard(endpoint.urlPath)}
+                              className="cursor-pointer hover:bg-gray-200"
+                            >
+                              <Copy className="h-4 w-4 mr-1" />
+                              Copy
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
+                              <MoreVertical className="h-4 w-4 mr-1" />
+                              Open
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
+                              <Play className="h-4 w-4 mr-1" />
+                              Test
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => deleteEndpoint(endpoint.slug)}
+                              className="cursor-pointer text-red-500"
+                            >
+                              <Trash2 className="h-4 w-4 mr-1 text-red-500" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         ) : (
           <div className="text-center py-20">
             <div className="relative inline-block mb-6">
               <div className="absolute inset-0 bg-gradient-to-r from-violet-600/20 to-pink-600/20 rounded-full blur-xl"></div>
               <div className="relative bg-gradient-to-br from-violet-100 to-pink-100 p-6 rounded-full">
-                <Globe className="h-16 w-16 text-violet-600" />
+                <Globe className="h-16 w-16 text-indigo-600" />
               </div>
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-3">
@@ -283,7 +299,7 @@ const Profile = () => {
             <Button
               size="lg"
               type="button"
-              className="bg-gradient-to-r from-violet-600 to-purple-600 cursor-pointer hover:from-violet-700 hover:to-purple-700 shadow-lg"
+              className="bg-gradient-to-r from-indigo-500 to-indigo-600 cursor-pointer hover:from-indigo-600 hover:to-indigo-700 shadow-lg"
             >
               <Link to="/create-api" className="flex items-center">
                 <Plus className="h-5 w-5 mr-2" />

@@ -2,7 +2,8 @@ import MobileSidebar from "@/components/MobileSidebar";
 import Sidebar from "@/components/Sidebar";
 import UserButton from "@/components/UserButton";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import logo from "../assets/logo.svg";
 
 export function MainLayout() {
   const { pathname } = useLocation();
@@ -25,6 +26,17 @@ export function MainLayout() {
           <div className="lg:hidden flex">
             {showHamburger && <MobileSidebar />}
           </div>
+          <Link
+            to="/"
+            className="flex lg:hidden items-center gap-3 group transition-all duration-300 hover:scale-105"
+          >
+            <div className="relative">
+              <img src={logo} alt="logo" className="w-10 h-10 invert" />
+            </div>
+            <span className="text-xl font-bold text-black group-hover:text-gray-800 transition-colors duration-300">
+              Fetchout
+            </span>
+          </Link>
           {user && (
             <div className="cursor-pointer">
               <UserButton user={user} />

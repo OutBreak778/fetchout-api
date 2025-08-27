@@ -99,6 +99,7 @@ export type EndpointStore = {
   error: string | null;
   createEndpoint: (item: CreateEndpointData) => Promise<void>;
   fetchEndpoint: () => Promise<void>;
+  deleteEndpoint: (slug: string) => Promise<void>
 };
 
 type usagelogData = {
@@ -120,3 +121,60 @@ export type UsagelogStore = {
 
   fetchLogs: () => Promise<void>
 };
+
+export type DashboardStoreData = {
+  TotalRequest: number
+  AvgResponseTime: {_id: string | null, responseTime: number}[]
+  requestPerEndpoint: {
+    _id: string
+    count: number
+  }[]
+  requestTrends: {
+    _id: string
+    countEndpoint: number
+  }[]
+  successErrorRatio: {
+    _id: string 
+    count: number
+  }[]
+  top5Trends: {
+    _id: string 
+    count: number
+  }[]
+  recentUsageLogs: {
+    _id: string,
+    urlPath: string
+    statusCode: number
+    responseTime: number
+    createdAt: string
+  }[]
+  allStatusCode: {
+    _id: number
+    count: number
+  }[],
+  trends: {
+    totalRequest: {
+      percent: number 
+      up: boolean | number
+    },
+    avgResponseTime: {
+      percent: number
+      up: boolean | number
+    },
+    successRate: {
+      percent: number
+      up: boolean | number
+    },
+    totalEndpoint: {
+      percent: number
+      up: boolean | number
+    },
+  }
+}
+
+export type DashboardStore = {
+  data: DashboardStoreData | null
+  isLoading: boolean
+  error: string | null
+  fetchDashboard: () => Promise<void>
+} 

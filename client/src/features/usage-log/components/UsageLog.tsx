@@ -8,6 +8,7 @@ import {
   Eye,
   Filter,
   Globe,
+  Loader2,
   MoreHorizontal,
   Search,
 } from "lucide-react";
@@ -52,7 +53,7 @@ const UsageLog = () => {
   const [pageSize, setPageSize] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { usage, fetchLogs } = useUsagelogStore();
+  const { usage, fetchLogs, isLoading } = useUsagelogStore();
 
   const overview = useMemo(() => {
     const totalRequest = usage.length;
@@ -75,7 +76,8 @@ const UsageLog = () => {
         : 0;
 
     const uniqueUser = new Set(usage.map((item) => item.userId.userName)).size;
-    const uniqueEndpoint = new Set(usage.map((item) => item.endpointId.name)).size;
+    const uniqueEndpoint = new Set(usage.map((item) => item.endpointId.name))
+      .size;
 
     return {
       totalRequest,
@@ -173,6 +175,14 @@ const UsageLog = () => {
     fetchLogs();
   }, [fetchLogs]);
 
+  if(isLoading) {
+    return (
+      <div className="flex items-center justify-center w-full min-h-[70vh]">
+        <Loader2 className="w-5 h-5 animate-spin text-black" />
+      </div>
+    )
+  }
+
   return (
     <TooltipProvider>
       <div className="text-gray-800 max-w-7xl mx-auto w-full space-y-5">
@@ -257,9 +267,6 @@ const UsageLog = () => {
                       <TableHead className="font-semibold text-foreground">
                         Response
                       </TableHead>
-                      <TableHead className="font-semibold text-foreground hidden xl:flex">
-                        User
-                      </TableHead>
                       <TableHead className="font-semibold text-foreground">
                         Endpoint
                       </TableHead>
@@ -268,153 +275,146 @@ const UsageLog = () => {
                       </TableHead>
                     </TableRow>
                   </TableHeader>
-                  <TableBody>
-                    {pageinatedLogs.map((log, index) => {
-                      const urlPath = log.urlPath
-                        ?.split("/")
-                        .slice(3, -1)
-                        .join("/");
-                      const ipAddress = log.ipAddress
-                        ?.split(".")
-                        .slice(1, -1)
-                        .join(".");
-                      // const {url} = slug
-                      return (
-                        <TableRow
-                          key={log._id}
-                          className={cn(
-                            "hover:bg-muted/20 transition-colors border-border/30",
-                            index % 2 === 0 ? "bg-background/50" : "bg-muted/10"
-                          )}
-                        >
-                          <TableCell className="font-mono text-xs text-muted-foreground">
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <div className="text-sm">
-                                  {formatDate(log.createdAt).slice(0, 14)}...
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>{formatDate(log.createdAt)}</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TableCell>
-                          <TableCell className="font-mono text-sm">
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <code className="px-2 py-1 bg-muted/50 rounded text-xs">
-                                  {ipAddress.slice(0, 14)}...
-                                </code>
-                              </TooltipTrigger>
-                              <TooltipContent>{ipAddress}</TooltipContent>
-                            </Tooltip>
-                          </TableCell>
-                          <TableCell
-                            className="font-mono text-xs"
-                            title={log.urlPath}
+                  {filteredLogs.filtered.length > 0 ? (
+                    <TableBody>
+                      {pageinatedLogs.map((log, index) => {
+                        const urlPath = log.urlPath
+                          ?.split("/")
+                          .slice(3, -1)
+                          .join("/");
+                        const ipAddress = log.ipAddress
+                          ?.split(".")
+                          .slice(1, -1)
+                          .join(".");
+                        return (
+                          <TableRow
+                            key={log._id}
+                            className={cn(
+                              "hover:bg-muted/20 transition-colors border-border/30",
+                              index % 2 === 0
+                                ? "bg-background/50"
+                                : "bg-muted/10"
+                            )}
                           >
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <code className="px-2 py-1 bg-muted/50 rounded text-xs">
-                                  /{urlPath}
-                                </code>
-                              </TooltipTrigger>
-                              <TooltipContent>/{urlPath}</TooltipContent>
-                            </Tooltip>
-                          </TableCell>
-                          <TableCell>
-                            {getStatusBadge(log.statusCode)}
-                          </TableCell>
-                          <TableCell className="font-mono">
-                            <span
-                              className={cn(
-                                "px-2 py-1 rounded text-xs font-medium",
-                                log.responseTime > 1000
-                                  ? "bg-destructive/10 text-destructive"
-                                  : log.responseTime > 300
-                                  ? "bg-muted-foreground/10 text-muted-foreground"
-                                  : "bg-foreground/10 text-foreground"
-                              )}
+                            <TableCell className="font-mono text-xs text-muted-foreground">
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <div className="text-sm">
+                                    {formatDate(log.createdAt).slice(0, 14)}...
+                                  </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>{formatDate(log.createdAt)}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TableCell>
+                            <TableCell className="font-mono text-sm">
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <code className="px-2 py-1 bg-muted/50 rounded text-xs">
+                                    {ipAddress.slice(0, 14)}...
+                                  </code>
+                                </TooltipTrigger>
+                                <TooltipContent>{ipAddress}</TooltipContent>
+                              </Tooltip>
+                            </TableCell>
+                            <TableCell
+                              className="font-mono text-xs"
+                              title={log.urlPath}
                             >
-                              {log.responseTime}ms
-                            </span>
-                          </TableCell>
-                          <TableCell className="hidden xl:flex">
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <span className="space-y-1 flex flex-col">
-                                  <span className="font-medium text-sm text-foreground">
-                                    {log.userId.userName}
-                                  </span>
-                                </span>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <span className="space-y-1 flex flex-col text-white">
-                                  <span className="font-medium text-sm">
-                                    {log.userId.userName}
-                                  </span>
-                                  <span className="text-xs">
-                                    {log.userId.email}
-                                  </span>
-                                </span>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TableCell>
-                          <TableCell>
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <span className="space-y-1 flex flex-col">
-                                  {log.endpointId.name}
-                                </span>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <span className="space-y-1 flex flex-col">
-                                  <span className="font-medium text-sm">
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <code className="px-2 py-1 bg-muted/50 rounded text-xs">
+                                    /{urlPath}
+                                  </code>
+                                </TooltipTrigger>
+                                <TooltipContent>/{urlPath}</TooltipContent>
+                              </Tooltip>
+                            </TableCell>
+                            <TableCell>
+                              {getStatusBadge(log.statusCode)}
+                            </TableCell>
+                            <TableCell className="font-mono">
+                              <span
+                                className={cn(
+                                  "px-2 py-1 rounded text-xs font-medium",
+                                  log.responseTime > 1000
+                                    ? "bg-destructive/10 text-destructive"
+                                    : log.responseTime > 300
+                                    ? "bg-muted-foreground/10 text-muted-foreground"
+                                    : "bg-foreground/10 text-foreground"
+                                )}
+                              >
+                                {log.responseTime}ms
+                              </span>
+                            </TableCell>
+                            <TableCell>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <span className="space-y-1 flex flex-col">
                                     {log.endpointId.name}
                                   </span>
-                                  <code className="text-xs font-mono">
-                                    {log.endpointId._id}
-                                  </code>
-                                </span>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TableCell>
-                          <TableCell>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-8 w-8 p-0 hover:bg-muted/50 cursor-pointer"
-                                >
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent
-                                align="end"
-                                className="w-36 space-y-1 border-2 border-gray-100"
-                              >
-                                <DropdownMenuItem className="cursor-pointer">
-                                  <Link
-                                    to={`/usage-log/${log.endpointId.slug}`}
-                                    className="flex items-center"
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <span className="space-y-1 flex flex-col">
+                                    <span className="font-medium text-sm">
+                                      {log.endpointId.name}
+                                    </span>
+                                    <code className="text-xs font-mono">
+                                      {log.endpointId._id}
+                                    </code>
+                                  </span>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TableCell>
+                            <TableCell>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0 hover:bg-muted/50 cursor-pointer"
                                   >
-                                    <Eye className="h-4 w-4 mr-2" />
-                                    View Details
-                                  </Link>
-                                </DropdownMenuItem>
-                                <Separator className="border border-gray-100" />
-                                <DropdownMenuItem className="cursor-pointer">
-                                  <Copy className="h-4 w-4 mr-2" />
-                                  Copy URL
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                  align="end"
+                                  className="w-36 space-y-1 border-2 border-gray-100"
+                                >
+                                  <DropdownMenuItem className="cursor-pointer">
+                                    <Link
+                                      to={`/usage-log/${log.endpointId.slug}`}
+                                      className="flex items-center"
+                                    >
+                                      <Eye className="h-4 w-4 mr-2" />
+                                      View Details
+                                    </Link>
+                                  </DropdownMenuItem>
+                                  <Separator className="border border-gray-100" />
+                                  <DropdownMenuItem className="cursor-pointer">
+                                    <Copy className="h-4 w-4 mr-2" />
+                                    Copy URL
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  ) : (
+                    <TableBody>
+                      <TableRow className="border-none outline-none">
+                        <TableCell
+                          colSpan={8} // 👈 total number of columns in your header
+                          className="text-center py-10 text-muted-foreground"
+                        >
+                          No Usage Logs Found.
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  )}
                 </Table>
               </div>
 
