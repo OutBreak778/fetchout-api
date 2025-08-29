@@ -9,7 +9,6 @@ import {
   Home,
   Plus,
   RefreshCw,
-  Settings,
   Shield,
   User,
   Zap,
@@ -48,13 +47,7 @@ export const userButtonRoutes = [
     title: "Documentation",
     route: "/documentation",
     icon: BookA,
-  },
-  {
-    id: 3,
-    title: "Settings",
-    route: "/settings",
-    icon: Settings,
-  },
+  }
 ];
 
 export const apiExample = `curl https://fetchoutapi.com/api/endpoint/city-weather \\
@@ -93,16 +86,16 @@ export const features = [
     icon: Shield,
     title: "Built-in Security",
     description:
-      "Rate limiting, API keys, CORS, and DDoS protection out of the box.",
+      "Rate limiting, API keys and CORS out of the box.",
     gradient: "from-green-400 to-teal-500",
     bgGradient:
       "from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20",
   },
   {
     icon: Clock,
-    title: "Blazing Fast Response",
+    title: "Fast Response",
     description:
-      "Sub-100ms latency across all endpoints with real-time performance monitoring.",
+      "Fast latency across all endpoints with real-time performance monitoring.",
     gradient: "from-blue-500 to-indigo-600",
     bgGradient:
       "from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20",
@@ -153,7 +146,7 @@ export const methodIcons = {
 export const steps = [
   {
     type: "command",
-    content: "curl -X POST https://fetchout-api.vercel.app/users",
+    content: "curl -X POST https://fetchout-api.onrender.com/api",
     delay: 50,
   },
   {

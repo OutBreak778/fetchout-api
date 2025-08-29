@@ -10,14 +10,13 @@ import PrivateRoutes from "./PrivateRoutes";
 import PublicRoutes from "./PublicRoutes";
 import { Error404 } from "@/pages/Error404";
 import Navbar from "@/components/Navbar";
-import Settings from "@/components/Settings";
 import Endpoint from "@/features/endpoint/components/Endpoint";
 import UsageLog from "@/features/usage-log/components/UsageLog";
 import Profile from "@/features/profile/components/Profile";
 import Documentation from "@/components/Documentation";
-import EditProfile from "@/features/profile/components/EditProfile";
 import CreateEndpoint from "@/features/create-api/components/CreateEndpoint";
 import UsageLogSlug from "@/features/usage-log/components/UsageLogSlug";
+import { HelpSupportPage } from "@/components/HelpSupportPage";
 
 const AppRouter = () => {
   return (
@@ -57,10 +56,9 @@ const AppRouter = () => {
 
           {/* UserButton Routes */}
           <Route path="/profile" element={<Profile />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
 
+          <Route path="/help-support" element={<HelpSupportPage />} />
           <Route path="/documentation" element={<Documentation />} />
-          <Route path="/settings" element={<Settings />} />
 
           {/* Endpoint Routes */}
           <Route path="/create-api" element={<CreateEndpoint />} />

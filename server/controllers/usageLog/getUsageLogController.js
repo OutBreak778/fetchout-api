@@ -7,7 +7,10 @@ export async function getAllUsageLogController(req, res) {
     const userId = req.user._id;
     const logs = await UsageModel.find({ userId })
       .populate("userId", "userName email")
-      .populate("endpointId", "name slug description hits isPublic methods createdAt");
+      .populate(
+        "endpointId",
+        "name slug description hits isPublic methods createdAt"
+      );
 
     if (!logs || logs.length === 0) {
       logger.warn("There are no logs found in DB");

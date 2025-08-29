@@ -14,7 +14,7 @@ export type User = {
   email: string;
   avatar?: string;
   isVerified?: string;
-  isCreatedAt?: string;
+  createdAt?: string;
 };
 
 export type AuthStore = {

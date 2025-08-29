@@ -87,8 +87,10 @@ const Home = () => {
                   size="lg"
                   className="border-2 border-black text-black hover:bg-black hover:text-white px-10 py-4 text-lg font-bold transition-all duration-300 transform hover:scale-105 bg-white"
                 >
+                  <Link to="/documentation" className="flex items-center">
                   <Code className="w-5 h-5 mr-3" />
-                  See Examples
+                    Documentation
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -172,9 +174,12 @@ const Home = () => {
       </section>
 
       <footer className="bg-white border-t-2 border-black py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full">
-          <p className="text-black font-medium">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row space-y-3 md:items-center justify-between w-full">
+          <p className="text-black font-medium flex flex-col">
+            <span>
             &copy; {new Date().getFullYear()} Fetchout. All rights reserved.
+            </span>
+            <span className="block text-sm font-normal">outbreak@gmail.com</span>
           </p>
           <div className="flex items-center gap-2 text-black font-bold">
             <span className="text-2xl">❤️</span>

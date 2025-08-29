@@ -8,18 +8,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { formatDate } from "@/lib/formatDate";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useEndpointStore } from "@/stores/useEndpointStore";
 import {
   Copy,
-  Edit3,
   Globe,
   Loader2,
   Lock,
   MoreHorizontal,
-  MoreVertical,
-  Play,
   Plus,
   Trash2,
 } from "lucide-react";
@@ -68,6 +64,26 @@ const Profile = () => {
     }, 300);
   };
 
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString("en-US", {
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
+  const formatDateWithYear = (dateString: string) => {
+    return new Date(dateString).toLocaleString("en-US", {
+      month: "short",
+      year: "numeric",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
+
   if (!user) return null;
 
   if (isLoading) {
@@ -109,7 +125,9 @@ const Profile = () => {
                 {user.userName}
               </h1>
               <p className="text-xl text-gray-600 mb-4">{user.email}</p>
-              <p className="text-gray-500 mb-6">Member since July, 2024</p>
+              <p className="text-gray-500 mb-6">
+                Member since {user && formatDateWithYear(user.createdAt ?? "").slice(0, 12)}
+              </p>
 
               {/* Stats */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-6">
@@ -127,17 +145,6 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-
-            {/* Action Buttons */}
-            <Link to="/edit-profile" className="flex gap-3">
-              <Button
-                size="lg"
-                className="bg-indigo-500 cursor-pointer shadow-lg"
-              >
-                <Edit3 className="h-4 w-4 mr-2" />
-                Edit Profile
-              </Button>
-            </Link>
           </div>
         </div>
       </div>
@@ -158,7 +165,9 @@ const Profile = () => {
         {filtered.length > 0 ? (
           <div className="grid gap-6">
             {data &&
-              filtered.map((endpoint, index) => (
+              filtered.map((endpoint, index) => {
+                  const urlPath = endpoint.urlPath.split("/").slice(0,-1).join("/")
+                return (
                 <div
                   key={endpoint._id}
                   className="group relative bg-white rounded-2xl border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
@@ -221,13 +230,14 @@ const Profile = () => {
 
                         <div className="bg-gray-100 w-full rounded-lg px-3 py-2 mb-4">
                           <code className="text-sm text-gray-700 font-mono">
-                            {endpoint.urlPath}
+                            {<span className="hidden md:block">{endpoint.urlPath}</span>}
+                            {<span className="block md:hidden">{urlPath}</span>}
                           </code>
                         </div>
 
                         <div className="flex items-center gap-6 text-sm text-gray-500">
                           <span>
-                            Last used: {formatDate(endpoint.createdAt)}
+                            Last used: {formatDate(endpoint.createdAt).slice(0,20)}
                           </span>
                           <span>
                             Requests limit: {endpoint.rateLimit.limit}
@@ -258,14 +268,6 @@ const Profile = () => {
                               <Copy className="h-4 w-4 mr-1" />
                               Copy
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
-                              <MoreVertical className="h-4 w-4 mr-1" />
-                              Open
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
-                              <Play className="h-4 w-4 mr-1" />
-                              Test
-                            </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => deleteEndpoint(endpoint.slug)}
                               className="cursor-pointer text-red-500"
@@ -279,7 +281,7 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-              ))}
+              )})}
           </div>
         ) : (
           <div className="text-center py-20">

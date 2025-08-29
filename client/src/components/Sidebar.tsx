@@ -132,8 +132,12 @@ const Sidebar = () => {
               Recent Activity
             </button>
             <button className="w-full flex items-center gap-3 py-2 px-3 text-sm text-sidebar-foreground hover:bg-sidebar-accent/30 rounded-lg transition-colors">
-              <div className="w-2 h-2 bg-chart-3 rounded-full"></div>
-              Help & Support
+              {/* <Link to="/help-support" className="flex items-center gap-x-3"> */}
+                <div className="w-2 h-2 bg-chart-3 rounded-full"></div>
+                <span>
+                Help & Support
+                </span>
+              {/* </Link> */}
             </button>
           </div>
         </div>
@@ -143,9 +147,7 @@ const Sidebar = () => {
       <Dialog>
         <DialogTrigger asChild>
           <div className="border-t border-sidebar-border bg-gradient-to-r from-sidebar to-sidebar/95">
-            <div
-              className="w-full flex items-center cursor-pointer gap-3 py-3 px-4 text-sidebar-foreground hover:bg-red-50 hover:text-red-600 transition-all duration-200 group"
-            >
+            <div className="w-full flex items-center cursor-pointer gap-3 py-3 px-4 text-sidebar-foreground hover:bg-red-50 hover:text-red-600 transition-all duration-200 group">
               <div className="p-2 rounded-lg bg-muted text-muted-foreground group-hover:bg-red-100 group-hover:text-red-600 transition-all">
                 <LogOut size={18} />
               </div>
